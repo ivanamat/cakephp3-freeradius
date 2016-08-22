@@ -4,7 +4,7 @@ use Cake\Routing\Router;
 
 Router::plugin(
     'Freeradius',
-    ['path' => '/freeradius'],
+    ['path' => '/Freeradius'],
     function (RouteBuilder $routes) {
         $routes->fallbacks('DashedRoute');
     }
