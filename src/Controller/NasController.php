@@ -18,10 +18,13 @@
  * @copyright Copyright 2016, Iván Amat
  * @license MIT http://opensource.org/licenses/MIT
  * @link https://github.com/ivanamat/cakephp3-documents
+ * 
+ * sudo service freeradius restart
  */
 
 namespace Freeradius\Controller;
 
+use Cake\Core\Configure;
 use Freeradius\Controller\AppController;
 
 /**
@@ -31,6 +34,25 @@ use Freeradius\Controller\AppController;
  */
 class NasController extends AppController
 {
+    
+    private $cmd = NULL;
+    
+    /**
+     * Initialization hook method.
+     *
+     * Use this method to add common initialization code like loading components.
+     *
+     * e.g. `$this->loadComponent('Security');`
+     *
+     * @return void
+     */
+    public function initialize() {
+        parent::initialize();
+        
+        if(Configure::read('Freeradius.cmd')) {
+            $this->cmd = Configure::read('Freeradius.cmd');
+        }
+    }
 
     /**
      * Index method
@@ -73,7 +95,9 @@ class NasController extends AppController
         if ($this->request->is('post')) {
             $na = $this->Nas->patchEntity($na, $this->request->data);
             if ($this->Nas->save($na)) {
+                $response = shell_exec($this->cmd);
                 $this->Flash->success(__('The na has been saved.'));
+                $this->Flash->success($response);
 
                 return $this->redirect(['action' => 'index']);
             } else {
@@ -99,7 +123,9 @@ class NasController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $na = $this->Nas->patchEntity($na, $this->request->data);
             if ($this->Nas->save($na)) {
+                $response = shell_exec($this->cmd);
                 $this->Flash->success(__('The na has been saved.'));
+                $this->Flash->success($response);
 
                 return $this->redirect(['action' => 'index']);
             } else {

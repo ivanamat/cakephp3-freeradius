@@ -1,8 +1,8 @@
 {
-    "name": "ivanamat/cakephp3-bootstrap3",
+    "name": "ivanamat/cakephp3-freeradius",
     "description": "Twitter Bootstrap Theme",
-    "keywords": ["cakephp", "cakephp3", "cake3", "plugin", "theme", "bootstrap", "bootstrap3"],
-    "homepage": "https://github.com/ivanamat/cakephp3-bootstrap3",
+    "keywords": ["cakephp", "cakephp3", "cake3", "plugin", "radius", "freeradius", "auth", "hotspot"],
+    "homepage": "https://github.com/ivanamat/cakephp3-freeradius",
     "type": "cakephp-plugin",
     "license": "MIT",
     "authors": [
