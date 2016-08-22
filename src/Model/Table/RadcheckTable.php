@@ -4,6 +4,8 @@ namespace Freeradius\Model\Table;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\Entity;
+use Cake\Utility\Security;
 use Cake\Validation\Validator;
 
 /**
@@ -88,5 +90,25 @@ class RadcheckTable extends Table
     public static function defaultConnectionName()
     {
         return 'freeradius';
+    }
+    
+    // public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options) {
+    public function beforeSave($event, $entity, $options)
+    {
+        if ($entity->attribute == 'Crypt-Password' && $entity->value) {
+            $entity->value = crypt($entity->value, Security::salt());
+        }
+        if ($entity->attribute == 'MD5-Password' && $entity->value) {
+            $entity->value = Security::hash($entity->value, 'md5');
+        }
+        if ($entity->attribute == 'SMD5-Password' && $entity->value) {
+            $entity->value = Security::hash($entity->value, 'md5', Security::salt());
+        }
+        if ($entity->attribute == 'SHA-Password' && $entity->value) {
+            $entity->value = Security::hash($entity->value, 'sha1');
+        }
+        if ($entity->attribute == 'SSHA-Password' && $entity->value) {
+            $entity->value = Security::hash($entity->value, 'sha1', Security::salt());
+        }
     }
 }

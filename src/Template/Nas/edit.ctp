@@ -13,7 +13,7 @@
 <div class="nas form large-9 medium-8 columns content">
     <?= $this->Form->create($na) ?>
     <fieldset>
-        <legend><?= __('Edit Na') ?></legend>
+        <legend><?= __('Edit Network Access Server') ?></legend>
         <?php
             echo $this->Form->input('nasname');
             echo $this->Form->input('shortname');
