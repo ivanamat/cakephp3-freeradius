@@ -108,7 +108,8 @@ class RadcheckTable extends Table
             $entity->value = Security::hash($entity->value, 'sha1');
         }
         if ($entity->attribute == 'SSHA-Password' && $entity->value) {
-            $entity->value = Security::hash($entity->value, 'sha1', Security::salt());
+            // $entity->value = Security::hash($entity->value, 'sha1', Security::salt());
+            $entity->value = base64_encode(sha1($entity->value . Security::salt(), true) . Security::salt());
         }
     }
 }

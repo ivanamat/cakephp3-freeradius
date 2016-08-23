@@ -5,7 +5,7 @@
  * 
  * PHP version 5
  * 
- * Class UsersController
+ * Class GroupsController
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
@@ -29,7 +29,7 @@ use Freeradius\Controller\AppController;
  *
  * @property \Freeradius\Model\Table\RadcheckTable $Radcheck
  */
-class UsersController extends AppController {
+class GroupsController extends AppController {
     
     /**
      * Initialization hook method.
@@ -43,8 +43,9 @@ class UsersController extends AppController {
     public function initialize() {
         parent::initialize();
      
-        $this->loadModel('Freeradius.Radcheck');
-        $this->loadModel('Freeradius.Radreply');
+        $this->loadModel('Freeradius.Radgroupcheck');
+        $this->loadModel('Freeradius.Radgroupreply');
+        $this->loadModel('Freeradius.Radusergroup');
     }
 
     /**
@@ -53,7 +54,36 @@ class UsersController extends AppController {
      * @return \Cake\Network\Response|null
      */
     public function index() {
+        $radcheck = $this->paginate($this->Radgroupcheck);
         
+        $groups = $radcheck;
+
+        $this->set(compact('groups'));
+        $this->set('_serialize', ['groups']);
+    }
+
+    /**
+     * View method
+     *
+     * @param string|null $id Radcheck id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function view($id = null) {
+        $radcheck = $this->Radcheck->get($id, [
+            'contain' => []
+        ]);
+
+        $this->set('radcheck', $radcheck);
+        $this->set('_serialize', ['radcheck']);
+    }
+
+    /**
+     * Add method
+     *
+     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
+     */
+    public function add() {
         $radcheck = $this->Radcheck->newEntity();
         
         if ($this->request->is('post')) {
@@ -69,10 +99,10 @@ class UsersController extends AppController {
             }
         }
         
-        $users = $this->paginate($this->Radcheck);
+        return $this->redirect(['action' => 'index']);
         
-        $this->set(compact('radcheck','users'));
-        $this->set('_serialize', ['radcheck','users']);
+        // $this->set(compact('radcheck'));
+        // $this->set('_serialize', ['radcheck']);
     }
 
     /**
@@ -96,11 +126,8 @@ class UsersController extends AppController {
                 $this->Flash->error(__('The radcheck could not be saved. Please, try again.'));
             }
         }
-        
-        $users = $this->paginate($this->Radcheck);
-        
-        $this->set(compact('radcheck','users'));
-        $this->set('_serialize', ['radcheck','users']);
+        $this->set(compact('radcheck'));
+        $this->set('_serialize', ['radcheck']);
     }
 
     /**

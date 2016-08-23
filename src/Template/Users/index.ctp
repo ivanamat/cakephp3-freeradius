@@ -49,7 +49,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <h4><?php echo __('Add user') ?></h4>
-            <?php echo $this->Form->create('Users',['url' => ['controller' => 'Users', 'action' => 'add']]) ?>
+            <?php echo $this->Form->create($radcheck) ?>
                 <fieldset>
                     <?php echo $this->Form->input('username',['required' => true]); ?>
                     <?php echo $this->Form->input('attribute',[
@@ -62,11 +62,13 @@
                             'SHA-Password' => 'SHA-Password',
                             'SSHA-Password' => 'SSHA-Password'
                         ],
-                        'default' => 'SSHA-Password',
+                        'default' => 'Crypt-Password',
                         'required' => true]); ?>
                     <?php echo $this->Form->input('value',['required' => true]); ?>
                 </fieldset>
-                <?php echo $this->Form->button(__('Create'), ['class' => 'right button']) ?>
+                <div class="right">
+                    <?php echo $this->Form->button(__('Create'), ['class' => 'success']) ?>
+                </div>
                 <div class="clearfix"></div>
             <?php echo $this->Form->end() ?>
         </div>

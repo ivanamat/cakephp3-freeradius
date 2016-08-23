@@ -48,7 +48,7 @@
 <div class="categories index large-3 medium-2 columns content">
     <div class="panel panel-default">
         <div class="panel-body">
-            <h4><?php echo __('Edit user') ?></h4>
+            <h4><?php echo __('Add user') ?></h4>
             <?php unset($radcheck->value); echo $this->Form->create($radcheck); ?>
                 <fieldset>
                     <?php echo $this->Form->input('username',['required' => true]); ?>
@@ -64,12 +64,9 @@
                         ],
                         'default' => 'Crypt-Password',
                         'required' => true]); ?>
-                    <?php echo $this->Form->input('value',['label' => __('Password'),'required' => true]); ?>
+                    <?php echo $this->Form->input('value',['required' => true]); ?>
                 </fieldset>
-                <div class="right">
-                    <?php echo $this->Form->button(__('Save'), ['class' => 'success']) ?>
-                    <?php echo $this->Html->link(__('Cancel'), ['action' => 'index'],['class' => 'button']) ?>
-                </div>
+                <?php echo $this->Form->button(__('Create'), ['class' => 'right button']) ?>
                 <div class="clearfix"></div>
             <?php echo $this->Form->end(); ?>
         </div>
