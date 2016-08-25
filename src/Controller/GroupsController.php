@@ -22,15 +22,16 @@
 
 namespace Freeradius\Controller;
 
+use Cake\Core\Plugin;
 use Freeradius\Controller\AppController;
 
 /**
- * Radcheck Controller
+ * Radgroupcheck Controller
  *
- * @property \Freeradius\Model\Table\RadcheckTable $Radcheck
+ * @property \Freeradius\Model\Table\RadgroupcheckTable $Radgroupcheck
  */
 class GroupsController extends AppController {
-    
+
     /**
      * Initialization hook method.
      *
@@ -42,10 +43,18 @@ class GroupsController extends AppController {
      */
     public function initialize() {
         parent::initialize();
-     
+
         $this->loadModel('Freeradius.Radgroupcheck');
         $this->loadModel('Freeradius.Radgroupreply');
         $this->loadModel('Freeradius.Radusergroup');
+        
+        $this->loadModel('Freeradius.DictionaryVendors');
+        $this->loadModel('Freeradius.DictionaryAttributes');
+        
+        $this->loadComponent('Freeradius.Freeradius');
+        $this->loadComponent('Freeradius.Dictionary');
+
+        $this->Auth->allow('parse');
     }
 
     /**
@@ -54,23 +63,51 @@ class GroupsController extends AppController {
      * @return \Cake\Network\Response|null
      */
     public function index() {
-        $radcheck = $this->paginate($this->Radgroupcheck);
-        
-        $groups = $radcheck;
 
-        $this->set(compact('groups'));
-        $this->set('_serialize', ['groups']);
+        $radgroupcheck = $this->Radgroupcheck->newEntity();
+        $radgroupreply = $this->Radgroupreply->newEntity();
+
+        if ($this->request->is('post')) {
+            $this->request->data['op'] = ':=';
+            $radgroupcheckData = [
+                'groupname' => $this->request->data['groupname'],
+                'attribute' => 'Framed-Protocol',
+                'op' => '==',
+                'value' => 'PPP'
+            ];
+
+            $radgroupreplyData = [
+                'groupname' => $this->request->data['groupname'],
+                'attribute' => 'Reply-Message',
+                'op' => ':=',
+                'value' => $this->request->data['reply_message']
+            ];
+
+            $radgroupcheck = $this->Radgroupcheck->patchEntity($radgroupcheck, $radgroupcheckData);
+            $radgroupreply = $this->Radgroupreply->patchEntity($radgroupreply, $this->request->data);
+
+            if ($this->Radgroupcheck->save($radgroupcheck)) {
+                $this->Flash->success(__('The group has been saved.'));
+            } else {
+                $this->Flash->error(__('The group could not be saved. Please, try again.'));
+            }
+        }
+
+        $groups = $this->paginate($this->Radgroupcheck);
+
+        $this->set(compact('radgroupcheck', 'groups'));
+        $this->set('_serialize', ['radgroupcheck', 'groups']);
     }
 
     /**
      * View method
      *
-     * @param string|null $id Radcheck id.
+     * @param string|null $id Radgroupcheck id.
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
-        $radcheck = $this->Radcheck->get($id, [
+        $radcheck = $this->Radgroupcheck->get($id, [
             'contain' => []
         ]);
 
@@ -84,69 +121,121 @@ class GroupsController extends AppController {
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
     public function add() {
-        $radcheck = $this->Radcheck->newEntity();
-        
-        if ($this->request->is('post')) {
-            $this->request->data['op'] = ':=';
-            $radcheck = $this->Radcheck->patchEntity($radcheck, $this->request->data);
-            
-            if ($this->Radcheck->save($radcheck)) {
-                $this->Flash->success(__('The user has been saved.'));
+        $radgroupcheck = $this->Radgroupcheck->newEntity();
+        $radgroupreply = $this->Radgroupreply->newEntity();
 
-                // return $this->redirect(['action' => 'index']);
+        if ($this->request->is('post')) {
+            $radgroupcheck = $this->Radgroupcheck->patchEntity($radgroupcheck, $this->request->data);
+            $radgroupcheck = $this->Radgroupcheck->patchEntity($radgroupcheck, $this->request->data);
+
+            if ($this->Radgroupcheck->save($radcheck)) {
+                $this->Flash->success(__('The group has been saved.'));
             } else {
-                $this->Flash->error(__('The user could not be saved. Please, try again.'));
+                $this->Flash->error(__('The group could not be saved. Please, try again.'));
             }
         }
-        
+
         return $this->redirect(['action' => 'index']);
-        
-        // $this->set(compact('radcheck'));
-        // $this->set('_serialize', ['radcheck']);
     }
 
     /**
      * Edit method
      *
-     * @param string|null $id Radcheck id.
+     * @param string|null $id Radgroupcheck id.
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null) {
-        $radcheck = $this->Radcheck->get($id, [
-            'contain' => []
-        ]);
+    public function edit($groupname = null) {
+
+        $radgroupcheck = $this->Radgroupcheck->find('all')->where(['groupname' => $groupname])->toArray();
+        $radgroupreply = $this->Radgroupreply->find('all')->where(['groupname' => $groupname])->toArray();
+        $radusergroup = $this->Radusergroup->find('all')->where(['groupname' => $groupname])->toArray();
+        
+        $attributes = $this->Freeradius->attributes;
+
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $radcheck = $this->Radcheck->patchEntity($radcheck, $this->request->data);
-            if ($this->Radcheck->save($radcheck)) {
-                $this->Flash->success(__('The radcheck has been saved.'));
+            debug($this->request->data).die();
+            $radgroupcheck = $this->Radgroupcheck->patchEntity($radgroupcheck, $this->request->data);
+            if ($this->Radgroupcheck->save($radgroupcheck)) {
+                $this->Flash->success(__('The group has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The radcheck could not be saved. Please, try again.'));
+                $this->Flash->error(__('The group could not be saved. Please, try again.'));
             }
         }
-        $this->set(compact('radcheck'));
-        $this->set('_serialize', ['radcheck']);
+
+        $groups = $this->paginate($this->Radgroupcheck);
+
+        $this->set(compact('attributes', 'radgroupcheck', 'radgroupreply', 'radusergroup'));
+        $this->set('_serialize', ['attributes', 'radgroupcheck', 'radgroupreply', 'radusergroup']);
     }
 
     /**
      * Delete method
      *
-     * @param string|null $id Radcheck id.
+     * @param string|null $id Radgroupcheck id.
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
-        $radcheck = $this->Radcheck->get($id);
-        if ($this->Radcheck->delete($radcheck)) {
+        $radcheck = $this->Radgroupcheck->get($id);
+        if ($this->Radgroupcheck->delete($radcheck)) {
             $this->Flash->success(__('The radcheck has been deleted.'));
         } else {
             $this->Flash->error(__('The radcheck could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function parse() {
+        // Parse dictionary
+        $path = Plugin::path($this->plugin).'config/dictionary/';
+        $files = scandir($path);
+        $attributes = [];
+        
+        foreach($files as $file) {
+            if(is_file($path.$file) && substr( $file, 0, 11 ) === "dictionary.") {
+                $newVendorEntity = $this->DictionaryVendors->newEntity();
+                $vendorEntity = $this->DictionaryVendors->patchEntity($newVendorEntity, [
+                    'name' => str_replace('dictionary.','', $file)
+                ]);
+                
+                $data = $this->Dictionary->parse($path.$file);
+                $dv = $this->DictionaryVendors->save($vendorEntity);
+                if ($dv) {
+                    echo 'Vendor ' . $dv->name . ' guardado!<br />';
+                    foreach ($data as $attribute) {
+                        if(count($attribute) == 2) {
+                            $attribute[2] = $attribute[1];
+                            $attribute[1] = 0;
+                        }
+                        $newAttributeEntity = $this->DictionaryAttributes->newEntity();
+                        $attributeEntity = $this->DictionaryAttributes->patchEntity($newAttributeEntity, [
+                            'dictionary_vendor_id' => $dv->id,
+                            'name' => $attribute[0],
+                            'oid' => $attribute[1],
+                            'type' => $attribute[2],
+                        ]);
+                        
+                        $da = $this->DictionaryAttributes->save($attributeEntity);
+                        if($da) {
+                            echo 'Attributo de '.str_replace('dictionary.','', $file).' guardados!<br />';
+                        } else {
+                            debug($attribute);
+                        }
+                    }
+                }else{
+                    debug('No se ha podido guardar el vendor!<br />');
+                }
+            }
+            echo '<br />';
+        }
+        
+        echo 'TRUE!';
+        die();
     }
 
 }

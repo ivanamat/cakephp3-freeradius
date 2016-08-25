@@ -6,6 +6,16 @@ Router::plugin(
     'Freeradius',
     ['path' => '/Freeradius'],
     function (RouteBuilder $routes) {
+    
+        $routes->connect(
+            '/:userShortcut/edit/:groupname',
+            ['plugin' => 'Freeradius','controller' => 'Groups', 'action' => 'edit',':groupname'],
+            [
+                'pass' => array('groupname'),
+                'userShortcut' => '(?i:groups)'
+            ]
+        );
+    
         $routes->fallbacks('DashedRoute');
     }
 );

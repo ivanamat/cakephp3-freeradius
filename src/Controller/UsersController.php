@@ -89,11 +89,11 @@ class UsersController extends AppController {
         if ($this->request->is(['patch', 'post', 'put'])) {
             $radcheck = $this->Radcheck->patchEntity($radcheck, $this->request->data);
             if ($this->Radcheck->save($radcheck)) {
-                $this->Flash->success(__('The radcheck has been saved.'));
+                $this->Flash->success(__('The user has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The radcheck could not be saved. Please, try again.'));
+                $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
         }
         
@@ -114,9 +114,9 @@ class UsersController extends AppController {
         $this->request->allowMethod(['post', 'delete']);
         $radcheck = $this->Radcheck->get($id);
         if ($this->Radcheck->delete($radcheck)) {
-            $this->Flash->success(__('The radcheck has been deleted.'));
+            $this->Flash->success(__('The user has been deleted.'));
         } else {
-            $this->Flash->error(__('The radcheck could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The user could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);
