@@ -44,5 +44,8 @@ class FreeradiusComponent extends Component {
         $this->Radgroupcheck = TableRegistry::get('Freeradius.Radgroupcheck');
         $this->Radgroupreply = TableRegistry::get('Freeradius.Radgroupreply');
         $this->Radusergroup = TableRegistry::get('Freeradius.Radusergroup');
+        
+        $this->loadComponent('Freeradius.Dictionary');
     }
+
 }

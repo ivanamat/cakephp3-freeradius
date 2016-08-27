@@ -46,9 +46,17 @@ class DictionaryComponent extends Component {
         
     }
     
-    public function attributes() {
-        $attributes = [];
-        return $attributes;
+    public function attributes($avp = false) {
+        if(!$avp) {
+            return $this->DictionaryAttributes->find('list')->order(['name' => 'ASC'])->toArray();
+        } else {
+            $entities = $this->DictionaryAttributes->find('list')->order(['name' => 'ASC'])->toArray();
+            $arr = [];
+            foreach ($entities as $name) {
+                $arr[$name] = $name;
+            }
+            return $arr;
+        }
     }
 
     public function parse($file) {

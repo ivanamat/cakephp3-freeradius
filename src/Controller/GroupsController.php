@@ -53,8 +53,6 @@ class GroupsController extends AppController {
         
         // $this->loadComponent('Freeradius.Freeradius');
         $this->loadComponent('Freeradius.Dictionary');
-
-        $this->Auth->allow('parse');
     }
 
     /**
@@ -63,36 +61,6 @@ class GroupsController extends AppController {
      * @return \Cake\Network\Response|null
      */
     public function index() {
-
-        $radgroupcheck = $this->Radgroupcheck->newEntity();
-        $radgroupreply = $this->Radgroupreply->newEntity();
-
-        if ($this->request->is('post')) {
-            $this->request->data['op'] = ':=';
-            $radgroupcheckData = [
-                'groupname' => $this->request->data['groupname'],
-                'attribute' => 'Framed-Protocol',
-                'op' => '==',
-                'value' => 'PPP'
-            ];
-
-            $radgroupreplyData = [
-                'groupname' => $this->request->data['groupname'],
-                'attribute' => 'Reply-Message',
-                'op' => ':=',
-                'value' => $this->request->data['reply_message']
-            ];
-
-            $radgroupcheck = $this->Radgroupcheck->patchEntity($radgroupcheck, $radgroupcheckData);
-            $radgroupreply = $this->Radgroupreply->patchEntity($radgroupreply, $this->request->data);
-
-            if ($this->Radgroupcheck->save($radgroupcheck)) {
-                $this->Flash->success(__('The group has been saved.'));
-            } else {
-                $this->Flash->error(__('The group could not be saved. Please, try again.'));
-            }
-        }
-
         $groups = $this->paginate($this->Radgroupcheck);
 
         $this->set(compact('radgroupcheck', 'groups'));
@@ -122,20 +90,53 @@ class GroupsController extends AppController {
      */
     public function add() {
         $radgroupcheck = $this->Radgroupcheck->newEntity();
-        $radgroupreply = $this->Radgroupreply->newEntity();
-
+        $options = [
+            'fields' => array('DISTINCT Radgroupcheck.groupname','Radgroupcheck.groupname')
+        ];
+        
+        $groups = $this->paginate($this->Radgroupcheck,$options);
+        
         if ($this->request->is('post')) {
             $radgroupcheck = $this->Radgroupcheck->patchEntity($radgroupcheck, $this->request->data);
-            $radgroupcheck = $this->Radgroupcheck->patchEntity($radgroupcheck, $this->request->data);
 
-            if ($this->Radgroupcheck->save($radcheck)) {
+            if ($this->Radgroupcheck->save($radgroupcheck)) {
+                $this->Flash->success(__('The group has been saved.'));
+                return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error(__('The group could not be saved. Please, try again.'));
+            }
+        }
+        
+        if ($this->request->is('post')) {
+            $this->request->data['op'] = ':=';
+            $radgroupcheckData = [
+                'groupname' => $this->request->data['groupname'],
+                'attribute' => 'Framed-Protocol',
+                'op' => '==',
+                'value' => 'PPP'
+            ];
+
+            $radgroupreplyData = [
+                'groupname' => $this->request->data['groupname'],
+                'attribute' => 'Reply-Message',
+                'op' => ':=',
+                'value' => $this->request->data['reply_message']
+            ];
+
+            $radgroupcheck = $this->Radgroupcheck->patchEntity($radgroupcheck, $radgroupcheckData);
+            $radgroupreply = $this->Radgroupreply->patchEntity($radgroupreply, $this->request->data);
+
+            if ($this->Radgroupcheck->save($radgroupcheck)) {
                 $this->Flash->success(__('The group has been saved.'));
             } else {
                 $this->Flash->error(__('The group could not be saved. Please, try again.'));
             }
         }
 
-        return $this->redirect(['action' => 'index']);
+        $attributes = $this->Dictionary->attributes(true);
+        
+        $this->set(compact('groups','radgroupcheck','attributes'));
+        $this->set('_serialize', ['groups','radgroupcheck','attributes']);
     }
 
     /**
@@ -151,7 +152,8 @@ class GroupsController extends AppController {
         $radgroupreply = $this->Radgroupreply->find('all')->where(['groupname' => $groupname])->toArray();
         $radusergroup = $this->Radusergroup->find('all')->where(['groupname' => $groupname])->toArray();
         
-        $attributes = $this->Freeradius->attributes;
+        $attributes = $this->Dictionary->attributes();
+//        debug($attributes).die();
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             debug($this->request->data).die();

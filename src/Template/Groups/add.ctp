@@ -1,34 +1,61 @@
-<?php $this->assign('title', 'Freeradius / Groups'); ?>
+<?php $this->assign('title', 'Freeradius / Groups / Add'); ?>
 
 <?php echo $this->element('sidebar'); ?>
 
-<div class="groups edit large-9 medium-8 columns content">
-    <?php echo $this->Form->create($radgroupcheck); ?>
-        <fieldset>
-            <legend><?php echo __('Add group'); ?></legend>
-            <?php echo $this->Form->input('name'); ?>
-            <div class="row">
-                <div class="large-6 medium-6 columns">
-                    <?php echo $this->Form->input('attribute'); ?>
+<div class="categories add large-6 medium-5 columns content">
+    <h3><?php echo __('Groups') ?></h3>
+
+    <table cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th><?php echo $this->Paginator->sort('id'); ?></th>
+                <th><?php echo $this->Paginator->sort('groupname'); ?></th>
+                <th class="actions"><?php echo __('Actions'); ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($groups as $group): ?>
+            <?php debug($group); ?>
+            <tr>
+                <td><?php echo $this->Number->format($group->id); ?></td>
+                <td><?php echo h($group->groupname); ?></td>
+                <td class="actions">
+                    <?php echo $this->Html->link(__('Edit'), ['action' => 'edit', $group->groupname]) ?> · 
+                    <?php echo $this->Form->postLink(__('Delete'), ['action' => 'delete', $group->id], ['confirm' => __('Are you sure you want to delete # {0}?', $group->id)]) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <div class="paginator">
+        <ul class="pagination">
+            <?php echo $this->Paginator->prev('< ' . __('previous')); ?>
+            <?php echo $this->Paginator->numbers(); ?>
+            <?php echo $this->Paginator->next(__('next') . ' >'); ?>
+        </ul>
+        <p class="text-center"><?php echo $this->Paginator->counter() ?></p>
+    </div>
+</div>
+
+<div class="categories index large-3 medium-3 columns content">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h4><?php echo __('Add group') ?></h4>
+            <?php echo $this->Form->create($radgroupcheck); ?>
+                <fieldset>
+                    <?php echo $this->Form->input('groupname',['required' => true]); ?>
+                    <?php echo $this->Form->input('attribute',['type' => 'hidden', 'value' => 'Framed-Protocol']); ?>
+                    <?php echo $this->Form->input('op',['type' => 'hidden', 'value' => '==']); ?>
+                    <?php echo $this->Form->input('value',['type' => 'hidden', 'value' => 'PPP']); ?>
+                </fieldset>
+                <div class="right">
+                    <?php echo $this->Form->button(__('Create'), ['class' => 'success']) ?>
+                    <?php echo $this->Html->link(__('Cancel'),['action' => 'index'],['class' => 'button default']); ?>
                 </div>
-                <div class="large-6 medium-6 columns">
-                    <?php echo $this->Form->input('value'); ?>
-                </div>
-            </div>
-            
-            <div class="field_wrapper">
-            </div>
-            
-            <hr />
-            
-            <div class="right">
-                <?php echo $this->Form->button(__('Save'), ['class' => 'success']) ?>
-                <?php echo $this->Form->button(__('Add attribute'), ['class' => 'add_button button default']); ?>
-                <?php echo $this->Html->link(__('Cancel'), ['action' => 'index'],['class' => 'button']) ?>
-            </div>
-            <div class="clearfix"></div>
-        </fieldset>
-    <?php echo $this->Form->end(); ?>
+                <div class="clearfix"></div>
+            <?php echo $this->Form->end() ?>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">

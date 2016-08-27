@@ -39,7 +39,6 @@ class DashboardController extends AppController {
     public function initialize() {
         parent::initialize();
         
-        $this->loadComponent('Freeradius.Freeradius');
         $this->loadComponent('Freeradius.Dictionary');
     }
 
