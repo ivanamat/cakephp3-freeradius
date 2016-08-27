@@ -17,14 +17,13 @@
  * @author Ivan Amat <dev@ivanamat.es>
  * @copyright Copyright 2016, Iván Amat
  * @license MIT http://opensource.org/licenses/MIT
- * @link https://github.com/ivanamat/cakephp3-documents
+ * @link https://github.com/ivanamat/cakephp3-freeradius
  */
 
 namespace Freeradius\Controller;
 
 use App\Controller\AppController as BaseController;
 
-class AppController extends BaseController
-{
-
+class AppController extends BaseController {
+    
 }

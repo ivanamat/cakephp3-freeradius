@@ -10,14 +10,13 @@
 
 DROP TABLE IF EXISTS `dictionary_attributes`;
 CREATE TABLE `dictionary_attributes` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL UNIQUE AUTO_INCREMENT,
   `dictionary_vendor_id` int(11) unsigned NOT NULL,
-  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL UNIQUE,
   `oid` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
   `type` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=7213 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `dictionary_attributes`
@@ -28,3 +27,4 @@ INSERT INTO `dictionary_attributes` VALUES (1,1,'3Com-User-Access-Level','1','in
 UNLOCK TABLES;
 
 -- Dump completed on 2016-08-25 14:02:52
+# Error Code: 1062. Duplicate entry 'ASA-Authorization-DN-Field' for key 'name'

@@ -51,7 +51,7 @@ class GroupsController extends AppController {
         $this->loadModel('Freeradius.DictionaryVendors');
         $this->loadModel('Freeradius.DictionaryAttributes');
         
-        $this->loadComponent('Freeradius.Freeradius');
+        // $this->loadComponent('Freeradius.Freeradius');
         $this->loadComponent('Freeradius.Dictionary');
 
         $this->Auth->allow('parse');
@@ -189,53 +189,4 @@ class GroupsController extends AppController {
 
         return $this->redirect(['action' => 'index']);
     }
-
-    public function parse() {
-        // Parse dictionary
-        $path = Plugin::path($this->plugin).'config/dictionary/';
-        $files = scandir($path);
-        $attributes = [];
-        
-        foreach($files as $file) {
-            if(is_file($path.$file) && substr( $file, 0, 11 ) === "dictionary.") {
-                $newVendorEntity = $this->DictionaryVendors->newEntity();
-                $vendorEntity = $this->DictionaryVendors->patchEntity($newVendorEntity, [
-                    'name' => str_replace('dictionary.','', $file)
-                ]);
-                
-                $data = $this->Dictionary->parse($path.$file);
-                $dv = $this->DictionaryVendors->save($vendorEntity);
-                if ($dv) {
-                    echo 'Vendor ' . $dv->name . ' guardado!<br />';
-                    foreach ($data as $attribute) {
-                        if(count($attribute) == 2) {
-                            $attribute[2] = $attribute[1];
-                            $attribute[1] = 0;
-                        }
-                        $newAttributeEntity = $this->DictionaryAttributes->newEntity();
-                        $attributeEntity = $this->DictionaryAttributes->patchEntity($newAttributeEntity, [
-                            'dictionary_vendor_id' => $dv->id,
-                            'name' => $attribute[0],
-                            'oid' => $attribute[1],
-                            'type' => $attribute[2],
-                        ]);
-                        
-                        $da = $this->DictionaryAttributes->save($attributeEntity);
-                        if($da) {
-                            echo 'Attributo de '.str_replace('dictionary.','', $file).' guardados!<br />';
-                        } else {
-                            debug($attribute);
-                        }
-                    }
-                }else{
-                    debug('No se ha podido guardar el vendor!<br />');
-                }
-            }
-            echo '<br />';
-        }
-        
-        echo 'TRUE!';
-        die();
-    }
-
 }

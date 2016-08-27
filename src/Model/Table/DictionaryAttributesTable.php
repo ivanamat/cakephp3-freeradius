@@ -57,7 +57,14 @@ class DictionaryAttributesTable extends Table
 
         $validator
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->notEmpty('name')
+            ->add('name', [
+                'unique' => [
+                    'rule' => ['validateUnique'],
+                    'provider' => 'table',
+                    'message' => __('An attribute with the same name is already registered!')
+                ]
+            ]);
 
         $validator
             ->requirePresence('oid', 'create')

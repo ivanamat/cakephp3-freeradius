@@ -1,8 +1,10 @@
 <?php
+
 namespace Freeradius\Model\Table;
 
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
+use Cake\ORM\Rule\IsUnique;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -19,8 +21,7 @@ use Cake\Validation\Validator;
  * @method \Freeradius\Model\Entity\DictionaryVendor[] patchEntities($entities, array $data, array $options = [])
  * @method \Freeradius\Model\Entity\DictionaryVendor findOrCreate($search, callable $callback = null)
  */
-class DictionaryVendorsTable extends Table
-{
+class DictionaryVendorsTable extends Table {
 
     /**
      * Initialize method
@@ -28,8 +29,7 @@ class DictionaryVendorsTable extends Table
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->table('dictionary_vendors');
@@ -48,16 +48,23 @@ class DictionaryVendorsTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+                ->integer('id')
+                ->allowEmpty('id', 'create');
 
         $validator
-            ->requirePresence('name', 'create')
-            ->notEmpty('name');
+                ->requirePresence('name', 'create')
+                ->notEmpty('name')
+                ->add('name', [
+                    'unique' => [
+                        'rule' => ['validateUnique'],
+                        'provider' => 'table',
+                        'message' => __('A vendor with the same name is already registered!')
+                    ]
+                ]);
 
         return $validator;
     }
+
 }

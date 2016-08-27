@@ -7,6 +7,11 @@ Router::plugin(
     ['path' => '/Freeradius'],
     function (RouteBuilder $routes) {
     
+//        $routes->connect(
+//            '/',
+//            ['plugin' => 'Freeradius','controller' => 'Freeradius', 'action' => 'index']
+//        );
+        
         $routes->connect(
             '/:userShortcut/edit/:groupname',
             ['plugin' => 'Freeradius','controller' => 'Groups', 'action' => 'edit',':groupname'],

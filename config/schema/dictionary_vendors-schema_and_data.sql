@@ -10,10 +10,9 @@
 
 DROP TABLE IF EXISTS `dictionary_vendors`;
 CREATE TABLE `dictionary_vendors` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `name` (`name`(64))
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT UNIQUE,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL UNIQUE,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=184 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
