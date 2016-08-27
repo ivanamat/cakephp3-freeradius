@@ -4,9 +4,11 @@
 --
 DROP TABLE IF EXISTS `dictionary_vendors`;
 CREATE TABLE `dictionary_vendors` (
-  `id` int(11) unsigned NOT NULL UNIQUE AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL UNIQUE,
-  PRIMARY KEY (`id`)
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -14,10 +16,12 @@ CREATE TABLE `dictionary_vendors` (
 --
 DROP TABLE IF EXISTS `dictionary_attributes`;
 CREATE TABLE `dictionary_attributes` (
-  `id` int(11) unsigned NOT NULL UNIQUE AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `dictionary_vendor_id` int(11) unsigned NOT NULL,
-  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL UNIQUE,
-  `oid` varchar(16) NOT NULL,
-  `type` varchar(64) NOT NULL,
-  PRIMARY KEY (`id`)
+  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `oid` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
+  `type` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
