@@ -13,8 +13,8 @@ Router::plugin(
 //        );
         
         $routes->connect(
-            '/:userShortcut/edit/:groupname',
-            ['plugin' => 'Freeradius','controller' => 'Groups', 'action' => 'edit',':groupname'],
+            '/:userShortcut/:action/:groupname',
+            ['plugin' => 'Freeradius','controller' => 'Groups', 'action' => ':action',':groupname'],
             [
                 'pass' => array('groupname'),
                 'userShortcut' => '(?i:groups)'

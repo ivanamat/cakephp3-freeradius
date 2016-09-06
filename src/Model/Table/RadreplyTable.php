@@ -75,7 +75,7 @@ class RadreplyTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['username']));
+        // $rules->add($rules->isUnique(['username']));
 
         return $rules;
     }

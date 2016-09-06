@@ -1,0 +1,106 @@
+@import url("http://fonts.googleapis.com/css?family=Open+Sans:400,600,700");
+@import url("http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css");
+
+main {
+    min-width: 320px;
+    max-width: 100%;
+    padding: 50px 0px;
+    /*padding-top: 5px;*/
+    margin: 0 auto;
+    background: #fff;
+}
+
+main p {
+    margin: 0 0 20px;
+    line-height: 1.5;
+}
+
+main section section {
+    display: none;
+    padding: 20px 0 0;
+    border-top: 1px solid #ddd;
+    margin-top: -2px;
+}
+
+main input {
+    display: none;
+}
+
+main label {
+    display: inline-block;
+    margin: 0 0 -1px;
+    padding: 15px 25px;
+    font-weight: 600;
+    text-align: center;
+    color: #bbb;
+    border: 1px solid transparent;
+}
+
+main label:before {
+    font-family: fontawesome;
+    font-weight: normal;
+    margin-right: 10px;
+}
+
+main label[for*='1']:before {
+    content: '\f0f6';
+}
+
+main label[for*='2']:before {
+    content: '\f1c0';
+}
+
+main label[for*='3']:before {
+    content: '\f017';
+}
+
+main label[for*='4']:before {
+    content: '\f085';
+}
+
+main label[for*='5']:before {
+    content: '\f1a9';
+}
+
+main label:hover {
+    color: #888;
+    cursor: pointer;
+}
+
+main input:checked + label {
+    color: #555;
+    border: 1px solid #ddd;
+    border-top: 2px solid orange;
+    border-bottom: 2px solid #fff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+main #tab1:checked ~ #content1,
+main #tab2:checked ~ #content2,
+main #tab3:checked ~ #content3,
+main #tab4:checked ~ #content4, 
+main #tab5:checked ~ #content5, 
+main #tab6:checked ~ #content6, 
+main #tab7:checked ~ #content7, 
+main #tab8:checked ~ #content8, 
+main #tab9:checked ~ #content9, 
+main #tab10:checked ~ #content10 {
+    display: block;
+}
+
+@media screen and (max-width: 650px) {
+    main label {
+        font-size: 0;
+    }
+
+    main label:before {
+        margin: 0;
+        font-size: 18px;
+    }
+}
+@media screen and (max-width: 400px) {
+    main label {
+        padding: 15px;
+    }
+}

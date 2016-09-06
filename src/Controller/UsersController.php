@@ -23,7 +23,6 @@
 namespace Freeradius\Controller;
 
 use Freeradius\Controller\AppController;
-
 /**
  * Radcheck Controller
  *
@@ -45,6 +44,10 @@ class UsersController extends AppController {
      
         $this->loadModel('Freeradius.Radcheck');
         $this->loadModel('Freeradius.Radreply');
+        $this->loadModel('Freeradius.Radgroupcheck');
+        $this->loadModel('Freeradius.Radusergroup');
+        
+        $this->loadComponent('Freeradius.Freeradius');
     }
 
     /**
@@ -53,26 +56,50 @@ class UsersController extends AppController {
      * @return \Cake\Network\Response|null
      */
     public function index() {
+        $options = [
+            'fields' => array('DISTINCT Radcheck.username','Radcheck.username')
+        ];
+        $users = $this->paginate($this->Radcheck,$options);
         
-        $radcheck = $this->Radcheck->newEntity();
-        
-        if ($this->request->is('post')) {
-            $this->request->data['op'] = ':=';
-            $radcheck = $this->Radcheck->patchEntity($radcheck, $this->request->data);
-            
-            if ($this->Radcheck->save($radcheck)) {
-                $this->Flash->success(__('The user has been saved.'));
+        $this->set(compact('users'));
+        $this->set('_serialize', ['users']);
+    }
+    
+    /**
+     * Add method
+     *
+     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
+     */
+    public function add() {
+        $groups = $this->Radgroupcheck->find('all', [
+            'fields' => array('DISTINCT Radgroupcheck.groupname','Radgroupcheck.groupname')
+        ])->combine('id', 'groupname')->toArray();
 
-                // return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The user could not be saved. Please, try again.'));
+        if ($this->request->is('post')) {
+            $entities = $this->Freeradius->userAttributesEntities($this->request->data);
+            
+            foreach ($entities['RadcheckEntities'] as $entitie) {
+                if(count($entitie->errors()) == 0) {
+                    if(!$this->Radcheck->save($entitie)) {
+                        $this->Flash->error(__('The attribute {0} could not be saved. Please, try again.',$entitie->attribute));
+                    }
+                }
             }
+
+            foreach ($entities['RadreplyEntities'] as $entitie) {
+                if(count($entitie->errors()) == 0) {
+                    if(!$this->Radreply->save($entitie)) {
+                        $this->Flash->error(__('The attribute {0} could not be saved. Please, try again.',$entitie->attribute));
+                    }
+                }
+            }
+            
+            $this->Flash->success(__('The user has been saved.'));
+            return $this->redirect(['action' => 'index']);
         }
-        
-        $users = $this->paginate($this->Radcheck);
-        
-        $this->set(compact('radcheck','users'));
-        $this->set('_serialize', ['radcheck','users']);
+
+        $this->set(compact('groups'));
+        $this->set('_serialize', ['groups']);
     }
 
     /**
@@ -82,25 +109,82 @@ class UsersController extends AppController {
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null) {
-        $radcheck = $this->Radcheck->get($id, [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $radcheck = $this->Radcheck->patchEntity($radcheck, $this->request->data);
-            if ($this->Radcheck->save($radcheck)) {
-                $this->Flash->success(__('The user has been saved.'));
+    public function edit($username = null) {
+        $radcheck = $this->Radcheck->find('all',[
+            'conditions' => ['username' => $username]
+        ])->all();
+            
+        $radreply = $this->Radreply->find('all',[
+            'conditions' => ['username' => $username]
+        ])->all();
 
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The user could not be saved. Please, try again.'));
+        $radusergroup = $this->Radusergroup->find('all',[
+            'conditions' => ['username' => $username]
+        ])->all();
+
+        $groups = $this->Radgroupcheck->find('all', [
+            'fields' => array('DISTINCT Radgroupcheck.groupname','Radgroupcheck.groupname')
+        ])->combine('id', 'groupname')->toArray();
+        
+        
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $entities = $this->Freeradius->userAttributesEntities($this->request->data);
+            $pt = $this->Freeradius->passwordTypes;
+            
+            foreach ($entities['RadcheckEntities'] as $entitie) {
+                if(count($entitie->errors()) == 0) {
+                    $attr = $this->Radcheck->find('all')->where([
+                        'username' => $entitie->username,
+                        'attribute' => $entitie->attribute
+                    ])->first();
+                    
+                    if(!empty($attr)) {
+                        $entitie->id = $attr->id;
+                    }
+                    
+                    if(!$this->Radcheck->save($entitie)) {
+                        $this->Flash->error(__('The attribute {0} could not be saved. Please, try again.',$entitie->attribute));
+                    }
+                } else {
+                    if(!in_array($entitie->attribute, $pt)) {
+                        $this->Radcheck->deleteAll([
+                            'username' => $entitie->username,
+                            'attribute' => $entitie->attribute
+                        ]);
+                    }
+                }
             }
+
+            foreach ($entities['RadreplyEntities'] as $entitie) {
+                if(count($entitie->errors()) == 0) {
+                    $attr = $this->Radreply->find('all')->where([
+                        'username' => $entitie->username,
+                        'attribute' => $entitie->attribute
+                    ])->first();
+                    
+                    if(!empty($attr)) {
+                        $entitie->id = $attr->id;
+                    }
+                    
+                    if(!$this->Radreply->save($entitie)) {
+                        $this->Flash->error(__('The attribute {0} could not be saved. Please, try again.',$entitie->attribute));
+                    }
+                } else {
+                    $this->Radreply->deleteAll([
+                        'username' => $entitie->username,
+                        'attribute' => $entitie->attribute
+                    ]);
+                }
+            }
+            
+            $this->Flash->success(__('The user has been updated.'));
+            return $this->redirect(['action' => 'index']);
+        } else {
+            $this->request->data = $this->Freeradius->userAttributesData($radcheck,$radreply,$radusergroup);
         }
         
-        $users = $this->paginate($this->Radcheck);
-        
-        $this->set(compact('radcheck','users'));
-        $this->set('_serialize', ['radcheck','users']);
+        $this->set(compact('groups'));
+        $this->set('_serialize', ['groups']);
     }
 
     /**
@@ -110,14 +194,14 @@ class UsersController extends AppController {
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null) {
+    public function delete($username = null) {
         $this->request->allowMethod(['post', 'delete']);
-        $radcheck = $this->Radcheck->get($id);
-        if ($this->Radcheck->delete($radcheck)) {
-            $this->Flash->success(__('The user has been deleted.'));
-        } else {
-            $this->Flash->error(__('The user could not be deleted. Please, try again.'));
-        }
+        
+        $radcheck = $this->Radcheck->deleteAll(['username' => $username]);
+        $radreply = $this->Radreply->deleteAll(['username' => $username]);
+        $radusergroup = $this->Radusergroup->deleteAll(['username' => $username]);
+        
+        $this->Flash->success(__('The user has been deleted.'));
 
         return $this->redirect(['action' => 'index']);
     }

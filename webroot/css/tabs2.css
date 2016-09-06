@@ -1,0 +1,103 @@
+@import url("http://fonts.googleapis.com/css?family=Open+Sans:400,600,700");
+@import url("http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css");
+
+main {
+    min-width: 320px;
+    max-width: 100%;
+    padding: 50px 0px;
+    /*padding-top: 5px;*/
+    margin: 0 auto;
+    background: #fff;
+}
+
+main p {
+    margin: 0 0 20px;
+    line-height: 1.5;
+}
+
+main section section {
+    display: none;
+    padding: 20px 0 0;
+    border-top: 1px solid #ddd;
+}
+
+main input {
+    display: none;
+}
+
+main li, main li a {
+    display: inline-block;
+    margin: 0 0 -1px;
+    padding: 15px 25px;
+    font-weight: 600;
+    text-align: center;
+    color: #bbb;
+    border: 1px solid transparent;
+}
+
+main a:before {
+    font-family: fontawesome;
+    font-weight: normal;
+    margin-right: 10px;
+}
+
+main a[id*='1']:before {
+    content: '\f0f6';
+}
+
+main a[id*='2']:before {
+    content: '\f1c0';
+}
+
+main a[id*='3']:before {
+    content: '\f017';
+}
+
+main a[id*='4']:before {
+    content: '\f085';
+}
+
+main a[id*='5']:before {
+    content: '\f1a9';
+}
+
+main a:hover {
+    color: #888;
+    cursor: pointer;
+}
+
+main a:focus {
+    color: #555;
+    border: 1px solid #ddd;
+    border-top: 2px solid orange;
+    border-bottom: 1px solid #fff;
+}
+
+main #tab1:focus ~ #content1,
+main #tab2:focus ~ #content2,
+main #tab3:focus ~ #content3,
+main #tab4:focus ~ #content4, 
+main #tab5:focus ~ #content5, 
+main #tab6:focus ~ #content6, 
+main #tab7:focus ~ #content7, 
+main #tab8:focus ~ #content8, 
+main #tab9:focus ~ #content9, 
+main #tab10:focus ~ #content10 {
+    display: block;
+}
+
+@media screen and (max-width: 650px) {
+    main label {
+        font-size: 0;
+    }
+
+    main label:before {
+        margin: 0;
+        font-size: 18px;
+    }
+}
+@media screen and (max-width: 400px) {
+    main label {
+        padding: 15px;
+    }
+}

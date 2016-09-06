@@ -1,5 +1,5 @@
 <?php 
-$this->assign('title', 'Freeradius / Users / Edit / '.$this->request->data['username']); 
+$this->assign('title', 'Freeradius / Groups'); 
 
 $passwordTypes = [
     'Cleartext-Password' => 'Cleartext-Password',
@@ -28,11 +28,8 @@ $passwordTypes = [
                         <table>
                             <tbody>
                                 <tr>
-                                    <td class="text-right" colspan="1"><label for="username"><?php echo __('User Name'); ?></label></td>
-                                    <td colspan="1">
-                                        <?php echo $this->Form->input('username', ['label' => false, 'disabled' => true]); ?>
-                                        <?php echo $this->Form->input('username', ['type' => 'hidden']); ?>
-                                    </td>
+                                    <td class="text-right" colspan="1"><div class="input text required"><label for="username"><?php echo __('User Name'); ?></label></div></td>
+                                    <td colspan="1"><?php echo $this->Form->input('username', ['label' => false, 'required' => true]); ?></td>
                                     <td></td>
                                 </tr>
                                 <tr>
@@ -41,8 +38,8 @@ $passwordTypes = [
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-right" colspan="1"><label for="username"><?php echo __('Password'); ?></label></td>
-                                    <td colspan="1"><?php echo $this->Form->input('password', ['label' => false, 'required' => false]); ?></td>
+                                    <td class="text-right" colspan="1"><div class="input text required"><label for="username"><?php echo __('Password'); ?></label></div></td>
+                                    <td colspan="1"><?php echo $this->Form->input('password', ['label' => false, 'required' => true]); ?></td>
                                     <td></td>
                                 </tr>
                                 <tr>

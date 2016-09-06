@@ -10,7 +10,6 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th><?php echo $this->Paginator->sort('id'); ?></th>
                 <th><?php echo $this->Paginator->sort('groupname'); ?></th>
                 <th class="actions"><?php echo __('Actions'); ?></th>
             </tr>
@@ -18,7 +17,6 @@
         <tbody>
             <?php foreach ($groups as $group): ?>
             <tr>
-                <td><?php echo $this->Number->format($group->id); ?></td>
                 <td><?php echo h($group->groupname); ?></td>
                 <td class="actions">
                     <?php echo $this->Html->link(__('Edit'), ['action' => 'edit', $group->groupname]) ?> · 

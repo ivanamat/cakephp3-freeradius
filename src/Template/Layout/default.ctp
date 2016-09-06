@@ -16,33 +16,34 @@
 $cakeDescription = 'Wifi Manager';
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <?= $this->Html->charset() ?>
+    <?php echo $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <?= $cakeDescription ?>:
-        <?= $this->fetch('title') ?>
+        <?php echo $cakeDescription ?>:
+        <?php echo $this->fetch('title') ?>
     </title>
     <link href="http://<?php echo getenv('SERVER_NAME'); ?>" rel="alternate" hreflang="es" />
     <link href="http://<?php echo getenv('SERVER_NAME'); ?>/en" rel="alternate" hreflang="en" />
         
-    <?= $this->Html->meta('icon') ?>
+    <?php echo $this->Html->meta('icon') ?>
 
-    <?= $this->Html->css('base.css') ?>
-    <?= $this->Html->css('cake.css') ?>
+    <?php echo $this->Html->css('Freeradius.base.css') ?>
+    <?php echo $this->Html->css('Freeradius.cake.css') ?>
+    <?php // echo $this->Html->css('Freeradius.tabs'); ?>
     
-    <?= $this->Html->script('https://code.jquery.com/jquery-3.1.0.min.js'); ?>
+    <?php echo $this->Html->script('https://code.jquery.com/jquery-3.1.0.min.js'); ?>
 
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
+    <?php echo $this->fetch('meta') ?>
+    <?php echo $this->fetch('css') ?>
+    <?php echo $this->fetch('script') ?>
 </head>
 <body>
-    <nav class="top-bar expanded" data-topbar role="navigation">
+    <div class="top-bar expanded" data-topbar>
         <ul class="title-area large-3 medium-4 columns">
             <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
+                <h1><a href=""><?php echo $this->fetch('title') ?></a></h1>
             </li>
         </ul>
         <div class="top-bar-section">
@@ -51,10 +52,10 @@ $cakeDescription = 'Wifi Manager';
                 <li><a target="_blank" href="http://api.cakephp.org/3.0/">API</a></li>
             </ul>
         </div>
-    </nav>
-    <?= $this->Flash->render() ?>
+    </div>
+    <?php echo $this->Flash->render() ?>
     <div class="container clearfix">
-        <?= $this->fetch('content') ?>
+        <?php echo $this->fetch('content') ?>
     </div>
     <footer>
     </footer>
