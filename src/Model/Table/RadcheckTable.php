@@ -128,4 +128,5 @@ class RadcheckTable extends Table
         
         return $entity;
     }
+    
 }

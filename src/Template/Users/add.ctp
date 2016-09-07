@@ -16,12 +16,17 @@ $passwordTypes = [
 <main class="groups view large-9 medium-8 columns content">
     <section>
         
-        <h2><?php echo __('New user'); ?></h2>
-        <hr />
-        
         <?php echo $this->Form->create('User'); ?>
         
-            <section id="content1">
+            <h2 class='left'><?php echo __('New user'); ?></h2>
+            <div class="right">
+                <?php echo $this->Form->button(__('Save'), ['class' => 'success']) ?>
+                <?php echo $this->Html->link(__('Cancel'), ['action' => 'index'],['class' => 'button']) ?>
+            </div>
+            <div class="clearfix"></div>
+            <hr />
+        
+            <section id="access">
                 <h3><?php echo __('Access'); ?></h3>
                 <div class="panel">
                     <div class="panel-body">
@@ -93,8 +98,8 @@ $passwordTypes = [
                 </div>
             </section>
 
-            <section id="speed">
-                <h3><?php echo __('Speed limits'); ?></h3>
+            <section id="bandwidth">
+                <h3><?php echo __('Bandwidth'); ?></h3>
                 
                 <div class="panel">
                     <div class="panel-body">
@@ -126,8 +131,8 @@ $passwordTypes = [
                 </div>
             </section>
             
-            <section id="content3">
-                <h3><?php echo __('Data transfer limits'); ?></h3>
+            <section id="data">
+                <h3><?php echo __('Data'); ?></h3>
                 
                 <div class="panel">
                     <div class="panel-body">
@@ -159,8 +164,8 @@ $passwordTypes = [
                 </div>
             </section>
 
-            <section id="content4">
-                <h3><?php echo __('Time limits'); ?></h3>
+            <section id="time">
+                <h3><?php echo __('Time'); ?></h3>
                 
                 <div class="panel">
                     <div class="panel-body">

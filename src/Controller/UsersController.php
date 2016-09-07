@@ -57,7 +57,9 @@ class UsersController extends AppController {
      */
     public function index() {
         $options = [
-            'fields' => array('DISTINCT Radcheck.username','Radcheck.username')
+            'fields' => array('Radcheck.username'),
+            'group' => 'Radcheck.username',
+            'limit' => 10
         ];
         $users = $this->paginate($this->Radcheck,$options);
         
@@ -71,6 +73,12 @@ class UsersController extends AppController {
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
     public function add() {
+        /*
+         * TODO: Comprobar si existe antes de agregarlo
+        $exist = $this->Radcheck->find('all', [
+            'fields' => array('DISTINCT Radgroupcheck.groupname','Radgroupcheck.groupname')
+        ])->combine('id', 'groupname')->toArray();
+        */
         $groups = $this->Radgroupcheck->find('all', [
             'fields' => array('DISTINCT Radgroupcheck.groupname','Radgroupcheck.groupname')
         ])->combine('id', 'groupname')->toArray();
@@ -93,6 +101,14 @@ class UsersController extends AppController {
                     }
                 }
             }
+
+            foreach ($entities['RadusergroupEntities'] as $entitie) {
+                if(count($entitie->errors()) == 0) {
+                    if(!$this->Radusergroup->save($entitie)) {
+                        $this->Flash->error(__('The attribute {0} could not be saved. Please, try again.',$entitie->groupname));
+                    }
+                }
+            }
             
             $this->Flash->success(__('The user has been saved.'));
             return $this->redirect(['action' => 'index']);
@@ -100,6 +116,28 @@ class UsersController extends AppController {
 
         $this->set(compact('groups'));
         $this->set('_serialize', ['groups']);
+    }
+    
+    /**
+     * View method
+     *
+     * @param string|null $id Radgroupcheck id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function view($username = null) {
+        $radcheck = $this->Radcheck->find('all')
+                ->where(['username' => $username])->all();
+
+        $radreply = $this->Radreply->find('all')
+                ->where(['username' => $username])->all();
+
+        $radusergroup = $this->Radusergroup->find('all')
+                ->where(['username' => $username])->all();
+
+        $user = $this->Freeradius->userAttributesData($radcheck,$radreply,$radusergroup);
+        $this->set(compact('username','radcheck','radreply','radusergroup','user'));        
+        $this->set('_serialize', ['username','radcheck','radreply','radusergroup','user']);
     }
 
     /**
@@ -124,11 +162,13 @@ class UsersController extends AppController {
 
         $groups = $this->Radgroupcheck->find('all', [
             'fields' => array('DISTINCT Radgroupcheck.groupname','Radgroupcheck.groupname')
-        ])->combine('id', 'groupname')->toArray();
+        ])->combine('groupname', 'groupname')->toArray();
         
         
         if ($this->request->is(['patch', 'post', 'put'])) {
+            
             $entities = $this->Freeradius->userAttributesEntities($this->request->data);
+            
             $pt = $this->Freeradius->passwordTypes;
             
             foreach ($entities['RadcheckEntities'] as $entitie) {
@@ -174,6 +214,27 @@ class UsersController extends AppController {
                         'username' => $entitie->username,
                         'attribute' => $entitie->attribute
                     ]);
+                }
+            }
+
+            $this->Radusergroup->deleteAll([
+                'username' => $entitie->username
+            ]);
+            
+            foreach ($entities['RadusergroupEntities'] as $entitie) {
+                if(count($entitie->errors()) == 0) {
+                    $attr = $this->Radusergroup->find('all')->where([
+                        'username' => $entitie->username,
+                        'groupname' => $entitie->groupname
+                    ])->first();
+                    
+                    if(!empty($attr)) {
+                        $entitie->id = $attr->id;
+                    }
+                    
+                    if(!$this->Radusergroup->save($entitie)) {
+                        $this->Flash->error(__('The attribute {0} could not be saved. Please, try again.',$entitie->groupname));
+                    }
                 }
             }
             

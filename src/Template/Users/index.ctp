@@ -1,17 +1,12 @@
 <?php $this->assign('title', 'Freeradius / Users'); ?>
 
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?php echo __('Actions') ?></li>
-        <li><?php echo $this->Html->link(__('New User'), ['action' => 'add']) ?></li>
-        <li><?php echo $this->Html->link(__('List Groups'), ['controller' => 'Groups', 'action' => 'index']) ?></li>
-        <li><?php echo $this->Html->link(__('New Group'), ['controller' => 'Groups', 'action' => 'add']) ?></li>
-        <li><?php echo $this->Html->link(__('List Roles'), ['controller' => 'Roles', 'action' => 'index']) ?></li>
-        <li><?php echo $this->Html->link(__('New Role'), ['controller' => 'Roles', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
+<?php echo $this->element('sidebar'); ?>
+
 <div class="categories index large-9 medium-8 columns content">
-    <h3><?php echo __('Users') ?></h3>
+    <h3 class="left"><?php echo __('Users') ?></h3>
+    <?php echo $this->Html->link(__('Create user'),['action' => 'add'],['class' => 'button default small right']); ?>
+    <div class="clearfix"></div>
+    
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
@@ -24,8 +19,9 @@
             <tr>
                 <td><?php echo h($user->username); ?></td>
                 <td class="actions">
+                    <?php echo $this->Html->link(__('View'), ['action' => 'view', $user->username]) ?> · 
                     <?php echo $this->Html->link(__('Edit'), ['action' => 'edit', $user->username]) ?> · 
-                    <?php echo $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->username], ['confirm' => __('Are you sure you want to delete # {0}?', $user->username)]) ?>
+                    <?php echo $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->username], ['confirm' => __('Are you sure you want to delete {0}?', $user->username)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

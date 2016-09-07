@@ -16,12 +16,17 @@ $passwordTypes = [
 <main class="groups view large-9 medium-8 columns content">
     <section>
         
-        <h2><?php echo __('New user'); ?></h2>
-        <hr />
-        
         <?php echo $this->Form->create('User'); ?>
         
-            <section id="content1">
+            <h2 class="left"><?php echo __('Edit ' . $this->request->data['username']); ?></h2>
+            <div class="right">
+                <?php echo $this->Form->button(__('Save'), ['class' => 'success']) ?>
+                <?php echo $this->Html->link(__('Cancel'), ['action' => 'index'],['class' => 'button']) ?>
+            </div>
+            <div class="clearfix"></div>
+            <hr />
+        
+            <section id="access">
                 <h3><?php echo __('Access'); ?></h3>
                 <div class="panel">
                     <div class="panel-body">
@@ -71,8 +76,8 @@ $passwordTypes = [
                         <table>
                             <tbody>
                                 <tr>
-                                    <td class="text-right" colspan="1"><label for="groupname"><?php echo __('Group'); ?></label></td>
-                                    <td colspan="1"><?php echo $this->Form->select('groupname', $groups,['label' => false,'empty' => true]); ?></td>
+                                    <td class="text-right" colspan="1"><label for="groups"><?php echo __('Groups'); ?></label></td>
+                                    <td colspan="1"><?php echo $this->Form->select('groups', $groups,['label' => false,'empty' => true, 'multiple' => true, 'selected' => $this->request->data['groups']]); ?></td>
                                     <td></td>
                                 </tr>
                                 <tr>
@@ -96,8 +101,8 @@ $passwordTypes = [
                 </div>
             </section>
 
-            <section id="speed">
-                <h3><?php echo __('Speed limits'); ?></h3>
+            <section id="bandwidth">
+                <h3><?php echo __('Bandwidth'); ?></h3>
                 
                 <div class="panel">
                     <div class="panel-body">
@@ -129,8 +134,8 @@ $passwordTypes = [
                 </div>
             </section>
             
-            <section id="content3">
-                <h3><?php echo __('Data transfer limits'); ?></h3>
+            <section id="data">
+                <h3><?php echo __('Data'); ?></h3>
                 
                 <div class="panel">
                     <div class="panel-body">
@@ -162,8 +167,8 @@ $passwordTypes = [
                 </div>
             </section>
 
-            <section id="content4">
-                <h3><?php echo __('Time limits'); ?></h3>
+            <section id="time">
+                <h3><?php echo __('Time'); ?></h3>
                 
                 <div class="panel">
                     <div class="panel-body">

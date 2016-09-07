@@ -50,3 +50,13 @@ INSERT INTO radreply (username, attribute, value,op) VALUES ('bob', 'WISPr-Bandw
 # INSERT INTO radgroupreply (groupname, attribute, value,op) VALUES ('demo', 'MT-Rate-Limit', '64000/64000',':=');
 # INSERT INTO radgroupcheck (groupname, attribute, value,op) VALUES ('demo', 'Framed-Protocol', 'PPP','==');
 # INSERT INTO radusergroup (username, groupname, priority) VALUES ('bob', 'demo', 10);
+
+DROP TABLE IF EXISTS `radusergroup`;
+CREATE TABLE `radusergroup` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `groupname` varchar(64) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `priority` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `username` (`username`(32))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci

@@ -5,13 +5,18 @@
 <main class="groups view large-9 medium-8 columns content">
     <section>
         
-        <h2><?php echo __('New group'); ?></h2>
-        <hr />
-        
         <?php echo $this->Form->create('Group'); ?>
         
-            <section id="content1">
-                <h3><?php echo __('General'); ?></h3>
+            <h2 class='left'><?php echo __('New group'); ?></h2>
+            <div class="right">
+                <?php echo $this->Form->button(__('Save'), ['class' => 'success']) ?>
+                <?php echo $this->Html->link(__('Cancel'), ['action' => 'index'],['class' => 'button']) ?>
+            </div>
+            <div class="clearfix"></div>
+            <hr />
+        
+            <section id="access">
+                <h3><?php echo __('Access'); ?></h3>
                 <div class="panel">
                     <div class="panel-body">
                         <table>
@@ -32,6 +37,22 @@
                                     <td></td>
                                 </tr>
                                 <tr>
+                                    <td class="text-right" colspan="1"><label for="reply-message"><?php echo __('Reply Message'); ?></label></td>
+                                    <td colspan="1"><?php echo $this->Form->textarea('Reply-Message', ['label' => false]); ?></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                
+                <h3><?php echo __('General'); ?></h3>
+                <div class="panel">
+                    <div class="panel-body">
+                        <table>
+                            <tbody>
+                                <tr>
                                     <td class="text-right" colspan="1"><label for="port-limit"><?php echo __('Port Limit'); ?></label></td>
                                     <td colspan="1"><?php echo $this->Form->input('Port-Limit', ['label' => false]); ?></td>
                                     <td></td>
@@ -48,12 +69,13 @@
                                 </tr>
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </section>
 
-            <section id="speed">
-                <h3><?php echo __('Speed limits'); ?></h3>
+            <section id="bandwidth">
+                <h3><?php echo __('Bandwidth'); ?></h3>
                 
                 <div class="panel">
                     <div class="panel-body">
@@ -85,8 +107,8 @@
                 </div>
             </section>
             
-            <section id="content3">
-                <h3><?php echo __('Data transfer limits'); ?></h3>
+            <section id="data">
+                <h3><?php echo __('Data'); ?></h3>
                 
                 <div class="panel">
                     <div class="panel-body">
@@ -118,8 +140,8 @@
                 </div>
             </section>
 
-            <section id="content4">
-                <h3><?php echo __('Time limits'); ?></h3>
+            <section id="time">
+                <h3><?php echo __('Time'); ?></h3>
                 
                 <div class="panel">
                     <div class="panel-body">
@@ -161,26 +183,3 @@
         
     </section>
 </main>
-
-<script type="text/javascript">
-$(document).ready(function(){
-    var maxField = 10; //Input fields increment limitation
-    var addButton = $('.add_button'); //Add button selector
-    var wrapper = $('.field_wrapper'); //Input field wrapper
-    var x = 1; //Initial field counter is 1
-    var fieldHTML = 'Hola!<br />';
-                    
-    $(addButton).click(function(e){ //Once add button is clicked
-        e.preventDefault();
-        if(x < maxField){ //Check maximum number of input fields
-            x++; //Increment field counter
-            $(wrapper).append(fieldHTML); // Add field html
-        }
-    });
-    $(wrapper).on('click', '.remove_button', function(e){ //Once remove button is clicked
-        e.preventDefault();
-        $(this).parent().parent().parent().parent('div').remove(); //Remove field html
-        x--; //Decrement field counter
-    });
-});
-</script>

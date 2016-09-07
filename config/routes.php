@@ -20,6 +20,15 @@ Router::plugin(
                 'userShortcut' => '(?i:groups)'
             ]
         );
+
+        $routes->connect(
+            '/:userShortcut/:action/:username',
+            ['plugin' => 'Freeradius','controller' => 'Users', 'action' => ':action',':username'],
+            [
+                'pass' => array('username'),
+                'userShortcut' => '(?i:users)'
+            ]
+        );
     
         $routes->fallbacks('DashedRoute');
     }

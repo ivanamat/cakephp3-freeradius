@@ -56,6 +56,9 @@ class FreeradiusComponent extends Component {
     }
     
     public function userAttributesEntities($data) {
+        
+        $data['username'] = strtolower($data['username']);
+        $data['groups'] = (isset($data['groups']) && !empty($data['groups'])) ? $data['groups'] : [];
 
         $radcheckEntities = $this->Radcheck->newEntities(
             [
@@ -129,7 +132,7 @@ class FreeradiusComponent extends Component {
         );
         $entities['RadcheckEntities'] = $radcheckEntities;
         
-        $radreplyEntities = $this->Radcheck->newEntities(
+        $radreplyEntities = $this->Radreply->newEntities(
             [
                 [
                     'username' => $data['username'],
@@ -182,6 +185,21 @@ class FreeradiusComponent extends Component {
             ]
         );
         $entities['RadreplyEntities'] = $radreplyEntities;
+
+        $arr = [];
+        if(count($data['groups']) > 0) {
+            foreach($data['groups'] as $group) {
+                $arr[] = [
+                    'groupname' => $group,
+                    'username' => $data['username'],
+                    'priority' => 10
+                ];
+            }
+        }
+        
+        $radusergroupEntities = $this->Radusergroup->newEntities($arr);
+        
+        $entities['RadusergroupEntities'] = $radusergroupEntities;
         
         return $entities;
     }
@@ -203,13 +221,174 @@ class FreeradiusComponent extends Component {
             $data[$item->attribute] = $item->value;
         }
         
-        $groups = '';
+        $groups = [];
         foreach ($radusergroup as $item) {
-            $groups .= $item->groupname.' ';
+            $groups[] = $item->groupname;
         }
         
-        $data['username'] = trim($username);
-        $data['groupname'] = trim($groups);
+        $data['username'] = strtolower(trim($username));
+        $data['groups'] = $groups;
+        
+        return $data;
+    }
+    
+    public function groupAttributesEntities($data) {
+        
+        $data['groupname'] = strtolower($data['groupname']);
+        
+        $radcheckEntities = $this->Radgroupcheck->newEntities(
+            [
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'Framed-Protocol',
+                    'op' => '==',
+                    'value' => 'PPP'
+                ],
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'WISPr-Location-ID',
+                    'op' => ':=',
+                    'value' => $data['WISPr-Location-ID']
+                ],
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'WISPr-Location-Name',
+                    'op' => ':=',
+                    'value' => $data['WISPr-Location-Name']
+                ],
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'Max-Daily-Session',
+                    'op' => ':=',
+                    'value' => $data['Max-Daily-Session']
+                ],
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'Max-Weekly-Session',
+                    'op' => ':=',
+                    'value' => $data['Max-Weekly-Session']
+                ],
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'Max-Monthly-Session',
+                    'op' => ':=',
+                    'value' => $data['Max-Monthly-Session']
+                ],
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'Max-All-Session',
+                    'op' => ':=',
+                    'value' => $data['Max-All-Session']
+                ],
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'Max-Daily-Octets',
+                    'op' => ':=',
+                    'value' => $data['Max-Daily-Octets']
+                ],
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'Max-Weekly-Octets',
+                    'op' => ':=',
+                    'value' => $data['Max-Weekly-Octets']
+                ],
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'Max-Monthly-Octets',
+                    'op' => ':=',
+                    'value' => $data['Max-Monthly-Octets']
+                ],
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'Max-All-Octets',
+                    'op' => ':=',
+                    'value' => $data['Max-All-Octets']
+                ]
+            ]
+        );
+        $entities['RadgroupcheckEntities'] = $radcheckEntities;
+        
+        $radreplyEntities = $this->Radgroupreply->newEntities(
+            [
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'Reply-Message',
+                    'op' => ':=',
+                    'value' => $data['Reply-Message']
+                ],
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'Session-Timeout',
+                    'op' => ':=',
+                    'value' => $data['Session-Timeout']
+                ],
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'Port-Limit',
+                    'op' => ':=',
+                    'value' => $data['Port-Limit']
+                ],
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'WISPr-Redirection-URL',
+                    'op' => ':=',
+                    'value' => $data['WISPr-Redirection-URL']
+                ],
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'WISPr-Bandwidth-Max-Up',
+                    'op' => ':=',
+                    'value' => $data['WISPr-Bandwidth-Max-Up']
+                ],
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'WISPr-Bandwidth-Max-Down',
+                    'op' => ':=',
+                    'value' => $data['WISPr-Bandwidth-Max-Down']
+                ],
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'WISPr-Bandwidth-Min-Up',
+                    'op' => ':=',
+                    'value' => $data['WISPr-Bandwidth-Min-Up']
+                ],
+                [
+                    'groupname' => $data['groupname'],
+                    'attribute' => 'WISPr-Bandwidth-Min-Down',
+                    'op' => ':=',
+                    'value' => $data['WISPr-Bandwidth-Min-Down']
+                ]
+            ]
+        );
+        $entities['RadgroupreplyEntities'] = $radreplyEntities;
+        
+        return $entities;
+    }
+
+    public function groupAttributesData($radgroupcheck,$radgroupreply,$radusergroup) {
+        $data = [];
+        $groupname = null;
+        
+        foreach($radgroupcheck as $item) {
+            $data[$item->attribute] = $item->value;
+            if($groupname == null && isset($item->groupname)) {
+                $groupname = $item->groupname;
+            }
+        }
+
+        foreach($radgroupreply as $item) {
+            $data[$item->attribute] = $item->value;
+            if($groupname == null && isset($item->groupname)) {
+                $groupname = $item->groupname;
+            }
+        }
+        
+        $data['users'] = [];
+        foreach ($radusergroup as $item) {
+            $data['users'][] = $item->username;
+        }
+        
+        $data['groupname'] = strtolower(trim($groupname));
         
         return $data;
     }

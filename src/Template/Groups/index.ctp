@@ -19,8 +19,9 @@
             <tr>
                 <td><?php echo h($group->groupname); ?></td>
                 <td class="actions">
+                    <?php echo $this->Html->link(__('View'), ['action' => 'view', $group->groupname]) ?> · 
                     <?php echo $this->Html->link(__('Edit'), ['action' => 'edit', $group->groupname]) ?> · 
-                    <?php echo $this->Form->postLink(__('Delete'), ['action' => 'delete', $group->id], ['confirm' => __('Are you sure you want to delete # {0}?', $group->id)]) ?>
+                    <?php echo $this->Form->postLink(__('Delete'), ['action' => 'delete', $group->groupname], ['confirm' => __('Are you sure you want to delete {0}?', $group->groupname)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
