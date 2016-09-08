@@ -20,7 +20,10 @@
                             <tbody>
                                 <tr>
                                     <th><div class="input text required"><label for="groupname"><?php echo __('Group Name'); ?></label></div></th>
-                                    <td><?php echo $this->Form->input('groupname', ['label' => false,'required' => true]); ?></td>
+                                    <td>
+                                        <?php echo $this->Form->input('groupname', ['label' => false, 'id' => false, 'disabled' => true]); ?>
+                                        <?php echo $this->Form->input('groupname', ['type' => 'hidden']); ?>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th><label for="wispr-location-id"><?php echo __('Location ID'); ?></label></th>
