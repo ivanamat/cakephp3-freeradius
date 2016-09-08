@@ -189,10 +189,11 @@ class FreeradiusComponent extends Component {
         $arr = [];
         if(count($data['groups']) > 0) {
             foreach($data['groups'] as $group) {
+                $data['priority'][$group] = (isset($data['priority'][$group])) ? $data['priority'][$group] : 10;
                 $arr[] = [
                     'groupname' => $group,
                     'username' => $data['username'],
-                    'priority' => 10
+                    'priority' => $data['priority'][$group]
                 ];
             }
         }

@@ -171,6 +171,7 @@ class UsersController extends AppController {
         
         if ($this->request->is(['patch', 'post', 'put'])) {
             
+            
             $entities = $this->Freeradius->userAttributesEntities($this->request->data);
             
             $pt = $this->Freeradius->passwordTypes;
@@ -248,8 +249,8 @@ class UsersController extends AppController {
             $this->request->data = $this->Freeradius->userAttributesData($radcheck,$radreply,$radusergroup);
         }
         
-        $this->set(compact('groups'));
-        $this->set('_serialize', ['groups']);
+        $this->set(compact('groups','radusergroup'));
+        $this->set('_serialize', ['groups','radusergroup']);
     }
 
     /**

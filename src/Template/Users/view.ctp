@@ -191,6 +191,34 @@
                 </div>
             </div>
         </section>
+        
+        <?php if(count($radusergroup) > 0): ?>
+            <section id="priority">
+                <h3><?php echo __('Priority group'); ?></h3>
+
+                <div class="panel">
+                    <div class="panel-body">
+                        <table>
+                            <tbody>
+                                <?php
+                                $i = 0;
+                                foreach ($radusergroup as $group) {
+                                    ?>
+                                    <tr>
+                                        <td class="text-right" colspan="1"><b><?php echo __($group->groupname); ?></b></td>
+                                        <td colspan="1"><?php echo $group->priority; ?></td>
+                                        <td></td>
+                                    </tr>
+                                    <?php
+                                    $i++;
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        <?php endif; ?>
 
         <div class="right">
             <?php echo $this->Html->link(__('Edit'), ['action' => 'edit', $user['username']], ['class' => 'button success']) ?>

@@ -33,20 +33,20 @@ $passwordTypes = [
                         <table>
                             <tbody>
                                 <tr>
-                                    <td class="text-right" colspan="1"><label for="username"><?php echo __('User Name'); ?></label></td>
+                                    <td class="text-right" colspan="1"><label><?php echo __('User Name'); ?></label></td>
                                     <td colspan="1">
-                                        <?php echo $this->Form->input('username', ['label' => false, 'disabled' => true]); ?>
+                                        <?php echo $this->Form->input('username', ['label' => false, 'id' => false, 'disabled' => true]); ?>
                                         <?php echo $this->Form->input('username', ['type' => 'hidden']); ?>
                                     </td>
                                     <td></td>
                                 </tr>
                                 <tr>
                                     <td class="text-right" colspan="1"><label for="password-type"><?php echo __('Password Type'); ?></label></td>
-                                    <td colspan="1"><?php echo $this->Form->select('Password-Type', $passwordTypes,['label' => false, 'default' => 'SSHA-Password']); ?></td>
+                                    <td colspan="1"><?php echo $this->Form->select('Password-Type', $passwordTypes,['id' => 'password-type','label' => false, 'default' => 'SSHA-Password']); ?></td>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-right" colspan="1"><label for="username"><?php echo __('Password'); ?></label></td>
+                                    <td class="text-right" colspan="1"><label for="password"><?php echo __('Password'); ?></label></td>
                                     <td colspan="1"><?php echo $this->Form->input('password', ['label' => false, 'required' => false]); ?></td>
                                     <td></td>
                                 </tr>
@@ -62,7 +62,7 @@ $passwordTypes = [
                                 </tr>
                                 <tr>
                                     <td class="text-right" colspan="1"><label for="reply-message"><?php echo __('Reply Message'); ?></label></td>
-                                    <td colspan="1"><?php echo $this->Form->textarea('Reply-Message', ['label' => false]); ?></td>
+                                    <td colspan="1"><?php echo $this->Form->textarea('Reply-Message', ['id' => 'reply-message', 'label' => false]); ?></td>
                                     <td></td>
                                 </tr>
                             </tbody>
@@ -76,8 +76,8 @@ $passwordTypes = [
                         <table>
                             <tbody>
                                 <tr>
-                                    <td class="text-right" colspan="1"><label for="groups"><?php echo __('Groups'); ?></label></td>
-                                    <td colspan="1"><?php echo $this->Form->select('groups', $groups,['label' => false,'empty' => true, 'multiple' => true, 'selected' => $this->request->data['groups']]); ?></td>
+                                    <td class="text-right" colspan="1"><label for="groupslist"><?php echo __('Groups'); ?></label></td>
+                                    <td colspan="1"><?php echo $this->Form->select('groups', $groups,['id' => 'groupslist','label' => false,'empty' => [null => 'none'], 'multiple' => true, 'selected' => $this->request->data['groups']]); ?></td>
                                     <td></td>
                                 </tr>
                                 <tr>
@@ -200,6 +200,34 @@ $passwordTypes = [
                 </div>
             </section>
 
+            <?php if(count($radusergroup) > 0): ?>
+                <section id="priority">
+                    <h3><?php echo __('Priority group'); ?></h3>
+
+                    <div class="panel">
+                        <div class="panel-body">
+                            <table>
+                                <tbody>
+                                    <?php
+                                    $i = 0;
+                                    foreach ($radusergroup as $group) {
+                                        ?>
+                                        <tr>
+                                            <td class="text-right" colspan="1"><label for="max-daily-session"><?php echo __($group->groupname); ?></label></td>
+                                            <td colspan="1"><?php echo $this->Form->input('priority.'.$group->groupname, ['label' => false, 'value' => $group->priority]); ?></td>
+                                            <td></td>
+                                        </tr>
+                                        <?php
+                                        $i++;
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            <?php endif; ?>
+            
             <div class="right">
                 <?php echo $this->Form->button(__('Save'), ['class' => 'success']) ?>
                 <?php echo $this->Html->link(__('Cancel'), ['action' => 'index'],['class' => 'button']) ?>
