@@ -73,17 +73,21 @@ class UsersController extends AppController {
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
     public function add() {
-        /*
-         * TODO: Comprobar si existe antes de agregarlo
-        $exist = $this->Radcheck->find('all', [
-            'fields' => array('DISTINCT Radgroupcheck.groupname','Radgroupcheck.groupname')
-        ])->combine('id', 'groupname')->toArray();
-        */
         $groups = $this->Radgroupcheck->find('all', [
             'fields' => array('DISTINCT Radgroupcheck.groupname','Radgroupcheck.groupname')
         ])->combine('id', 'groupname')->toArray();
 
         if ($this->request->is('post')) {
+            $exist = $this->Radcheck->find('all', [
+                'conditions' => ['Radcheck.username' => strtolower($this->request->data['username'])]
+            ])->count();
+            
+            if($exist > 0) {
+                $this->Flash->error(__('This username is already in use!'));
+            }
+        }
+        
+        if ($this->request->is('post') && !$exist) {
             $entities = $this->Freeradius->userAttributesEntities($this->request->data);
             
             foreach ($entities['RadcheckEntities'] as $entitie) {

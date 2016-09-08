@@ -103,8 +103,16 @@ class GroupsController extends AppController {
     public function add() {
         
         if ($this->request->is('post')) {
+            $exist = $this->Radgroupcheck->find('all', [
+                'conditions' => ['Radgroupcheck.groupname' => strtolower($this->request->data['groupname'])]
+            ])->count();
             
-//            debug($this->request->data).die();
+            if($exist > 0) {
+                $this->Flash->error(__('This groupname is already in use!'));
+            }
+        }
+        
+        if ($this->request->is('post') && !$exist) {
             $entities = $this->Freeradius->groupAttributesEntities($this->request->data);
             
             foreach ($entities['RadgroupcheckEntities'] as $entitie) {
