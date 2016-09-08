@@ -1,45 +1,43 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Radpostauth'), ['action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="radpostauth index large-9 medium-8 columns content">
-    <h3><?= __('Radpostauth') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th><?= $this->Paginator->sort('id') ?></th>
-                <th><?= $this->Paginator->sort('username') ?></th>
-                <th><?= $this->Paginator->sort('pass') ?></th>
-                <th><?= $this->Paginator->sort('reply') ?></th>
-                <th><?= $this->Paginator->sort('authdate') ?></th>
-                <th class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($radpostauth as $radpostauth): ?>
-            <tr>
-                <td><?= $this->Number->format($radpostauth->id) ?></td>
-                <td><?= h($radpostauth->username) ?></td>
-                <td><?= h($radpostauth->pass) ?></td>
-                <td><?= h($radpostauth->reply) ?></td>
-                <td><?= h($radpostauth->authdate) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $radpostauth->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $radpostauth->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $radpostauth->id], ['confirm' => __('Are you sure you want to delete # {0}?', $radpostauth->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-        </ul>
-        <p><?= $this->Paginator->counter() ?></p>
-    </div>
-</div>
+<?php $this->assign('title', 'Freeradius / Users / Post-Authentication'); ?>
+
+<?php echo $this->element('sidebar'); ?>
+
+<main class="radpostauth index large-10 medium-9 columns content">
+    <section id="nas">
+        
+        <h2 class="left"><?php echo __('Post-Authentication Log') ?></h2>
+        <hr class="clearfix" />
+
+        <table cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th><?php echo $this->Paginator->sort('username') ?></th>
+                    <th><?php echo $this->Paginator->sort('pass') ?></th>
+                    <th><?php echo $this->Paginator->sort('reply') ?></th>
+                    <th><?php echo $this->Paginator->sort('authdate') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($radpostauth as $radpostauth): ?>
+                <tr>
+                    <td><?php echo h($radpostauth->username) ?></td>
+                    <td class="ellipsis"><?php echo h($radpostauth->pass) ?></td>
+                    <td><?php echo h($radpostauth->reply) ?></td>
+                    <td><?php echo h($radpostauth->authdate) ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div class="paginator">
+            <ul class="pagination">
+                <?php echo $this->Paginator->first('<< ' . __('first')) ?>
+                <?php echo $this->Paginator->prev('< ' . __('previous')) ?>
+                <?php echo $this->Paginator->numbers() ?>
+                <?php echo $this->Paginator->next(__('next') . ' >') ?>
+                <?php echo $this->Paginator->last(__('last') . ' >>') ?>
+            </ul>
+            <p class="text-center"><?php echo $this->Paginator->counter() ?></p>
+        </div>
+        
+    </section>
+</main>

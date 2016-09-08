@@ -41,7 +41,7 @@ $cakeDescription = 'Wifi Manager';
 </head>
 <body>
     <div class="top-bar expanded" data-topbar>
-        <ul class="title-area large-3 medium-4 columns">
+        <ul class="title-area large-2 medium-3 columns">
             <li class="name">
                 <h1><a href=""><?php echo $this->fetch('title') ?></a></h1>
             </li>

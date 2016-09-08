@@ -1,22 +1,59 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List Nas'), ['action' => 'index']) ?></li>
-    </ul>
-</nav>
-<div class="nas form large-9 medium-8 columns content">
-    <?= $this->Form->create($na) ?>
-    <fieldset>
-        <legend><?= __('Add Network Access Server') ?></legend>
-        <?php echo $this->Form->input('nasname', ['placeholder' => '10.0.0.0/24']); ?>
-        <?php echo $this->Form->input('shortname', ['placeholder' => 'VPN']); ?>
-        <?php echo $this->Form->input('type', ['value' => 'other']); ?>
-        <?php echo $this->Form->input('ports', ['value' => 1812]); ?>
-        <?php echo $this->Form->input('secret', ['placeholder' => 'testing123']); ?>
-        <?php echo $this->Form->input('server', ['value' => 'default']); ?>
-        <?php echo $this->Form->input('community', ['placeholder' => 'My Community']); ?>
-        <?php echo $this->Form->textarea('description', ['placeholder' => 'Describe here whom you have granted permissions.']); ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div>
+<?php $this->assign('title', 'Freeradius / NAS / Add'); ?>
+
+<?php echo $this->element('sidebar'); ?>
+
+<main class="nas add large-10 medium-9 columns content">
+    <?php echo$this->Form->create($na) ?>
+        <section>
+            <h2 class='left'><?php echo h(__('New NAS')); ?></h2>
+            <div class="right">
+                <?php echo $this->Form->button(__('Save'), ['class' => 'button success small']) ?>
+                <?php echo $this->Html->link(__('Back'), ['action' => 'index'],['class' => 'button small']) ?>
+            </div>
+            <hr class="clearfix" />
+            
+            <h3><?php echo h(__('Network Access Server')); ?></h3>
+            <div class="panel">
+                <div class="panel-body">
+                    <table class="vertical-table transparent inverted">
+                        <tbody>
+                            <tr>
+                                <th><div class="input text required"><label for="nasname"><?php echo __('NAS Name'); ?></label></div></th>
+                                <td><?php echo $this->Form->input('nasname', ['label' => false,'required' => true]); ?></td>
+                            </tr>
+                            <tr>
+                                <th><label for="shortname"><?php echo __('Short Name'); ?></label></th>
+                                <td><?php echo $this->Form->input('shortname', ['label' => false]); ?></td>
+                            </tr>
+                            <tr>
+                                <th><div class="input text required"><label for="type"><?php echo __('Type'); ?></label></div></th>
+                                <td><?php echo $this->Form->input('type', ['label' => false,'required' => true]); ?></td>
+                            </tr>
+                            <tr>
+                                <th><label for="ports"><?php echo __('Ports'); ?></label></th>
+                                <td><?php echo $this->Form->input('ports', ['label' => false]); ?></td>
+                            </tr>
+                            <tr>
+                                <th><div class="input text required"><label for="secret"><?php echo __('Secret'); ?></label></div></th>
+                                <td><?php echo $this->Form->input('secret', ['label' => false,'required' => true]); ?></td>
+                            </tr>
+                            <tr>
+                                <th><label for="community"><?php echo __('Community'); ?></label></th>
+                                <td><?php echo $this->Form->input('community', ['label' => false]); ?></td>
+                            </tr>
+                            <tr>
+                                <th><label for="description"><?php echo __('description'); ?></label></th>
+                                <td><?php echo $this->Form->input('description', ['label' => false]); ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="right">
+                <?php echo $this->Form->button(__('Save'), ['class' => 'button success small']) ?>
+                <?php echo $this->Html->link(__('Back'), ['action' => 'index'],['class' => 'button small']) ?>
+            </div>
+            <div class="clearfix"></div>
+        </section>
+    <?php echo$this->Form->end() ?>
+</main>

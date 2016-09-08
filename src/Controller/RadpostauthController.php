@@ -1,4 +1,5 @@
 <?php
+
 namespace Freeradius\Controller;
 
 use Freeradius\Controller\AppController;
@@ -8,16 +9,20 @@ use Freeradius\Controller\AppController;
  *
  * @property \Freeradius\Model\Table\RadpostauthTable $Radpostauth
  */
-class RadpostauthController extends AppController
-{
+class RadpostauthController extends AppController {
 
     /**
      * Index method
      *
      * @return \Cake\Network\Response|null
      */
-    public function index()
-    {
+    public function index() {
+        $this->paginate = [
+            'limit' => 25,
+            'order' => [
+                'Radpostauth.authdate' => 'desc'
+            ]
+        ];
         $radpostauth = $this->paginate($this->Radpostauth);
 
         $this->set(compact('radpostauth'));
@@ -31,8 +36,7 @@ class RadpostauthController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
+    public function view($id = null) {
         $radpostauth = $this->Radpostauth->get($id, [
             'contain' => []
         ]);
@@ -46,8 +50,7 @@ class RadpostauthController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
         $radpostauth = $this->Radpostauth->newEntity();
         if ($this->request->is('post')) {
             $radpostauth = $this->Radpostauth->patchEntity($radpostauth, $this->request->data);
@@ -70,8 +73,7 @@ class RadpostauthController extends AppController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
         $radpostauth = $this->Radpostauth->get($id, [
             'contain' => []
         ]);
@@ -96,8 +98,7 @@ class RadpostauthController extends AppController
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
+    public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $radpostauth = $this->Radpostauth->get($id);
         if ($this->Radpostauth->delete($radpostauth)) {
@@ -108,4 +109,5 @@ class RadpostauthController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
 }

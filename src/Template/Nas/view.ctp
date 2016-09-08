@@ -1,50 +1,57 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Na'), ['action' => 'edit', $na->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Na'), ['action' => 'delete', $na->id], ['confirm' => __('Are you sure you want to delete # {0}?', $na->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Nas'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Na'), ['action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="nas view large-9 medium-8 columns content">
-    <h3><?= h($na->id) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th><?= __('Nasname') ?></th>
-            <td><?= h($na->nasname) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Shortname') ?></th>
-            <td><?= h($na->shortname) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Type') ?></th>
-            <td><?= h($na->type) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Secret') ?></th>
-            <td><?= h($na->secret) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Server') ?></th>
-            <td><?= h($na->server) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Community') ?></th>
-            <td><?= h($na->community) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Description') ?></th>
-            <td><?= h($na->description) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Id') ?></th>
-            <td><?= $this->Number->format($na->id) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Ports') ?></th>
-            <td><?= $this->Number->format($na->ports) ?></td>
-        </tr>
-    </table>
-</div>
+<?php $this->assign('title', 'Freeradius / NAS / ' . $na->nasname); ?>
+
+<?php echo $this->element('sidebar'); ?>
+
+<main class="nas view large-10 medium-9 columns content">
+    <section id="radpostauth">
+        <h2 class='left'><?php echo $na->nasname; ?></h2>
+        <div class="right">
+            <?php echo $this->Html->link(__('Edit'), ['action' => 'edit', $na->id], ['class' => 'button success small']) ?>
+            <?php echo $this->Html->link(__('Back'), ['action' => 'index'], ['class' => 'button small']) ?>
+        </div>
+        <hr class="clearfix" />
+        
+        <h3><?php echo h($na->shortname); ?></h3>
+        <div class="panel">
+            <div class="panel-body">
+                <table class="vertical-table transparent inverted">
+                    <tbody>
+                        <tr>
+                            <th><?php echo h(__('NAS Name')); ?></th>
+                            <td><?php echo $na->nasname; ?></td>
+                        </tr>
+                        <tr>
+                            <th><?php echo h(__('Short Name')); ?></th>
+                            <td colspan="1"><?php echo $na->shortname; ?></td>
+                        </tr>
+                        <tr>
+                            <th><?php echo h(__('Type')); ?></th>
+                            <td><?php echo $na->shortname; ?></td>
+                        </tr>
+                        <tr>
+                            <th><?php echo h(__('Ports')); ?></th>
+                            <td><?php echo $na->ports; ?></td>
+                        </tr>
+                        <tr>
+                            <th><?php echo h(__('Secret')); ?></th>
+                            <td><?php echo $na->secret; ?></td>
+                        </tr>
+                        <tr>
+                            <th><?php echo h(__('Community')); ?></th>
+                            <td><?php echo $na->community; ?></td>
+                        </tr>
+                        <tr>
+                            <th><?php echo h(__('Description')); ?></th>
+                            <td><?php echo $na->description; ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="right">
+            <?php echo $this->Html->link(__('Edit'), ['action' => 'edit', $na->id], ['class' => 'button success small']) ?>
+            <?php echo $this->Html->link(__('Back'), ['action' => 'index'], ['class' => 'button small']) ?>
+        </div>
+        <div class="clearfix"></div>
+    </section>
+</main>

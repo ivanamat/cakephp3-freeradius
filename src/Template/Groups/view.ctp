@@ -1,43 +1,37 @@
-<?php $this->assign('title', 'Freeradius / Groups'); ?>
+<?php $this->assign('title', 'Freeradius / Groups / ' . $group['groupname']); ?>
 
 <?php echo $this->element('sidebar'); ?>
 
-<main class="groups view large-9 medium-8 columns content">
-    <section>
-        
+<main class="groups view large-10 medium-9 columns content">
+    <section id="groups">
         <h2 class="left"><?php echo $group['groupname']; ?></h2>
         <div class="right">
-            <?php echo $this->Html->link(__('Edit'), ['action' => 'edit', $group['groupname']], ['class' => 'button success']) ?>
-            <?php echo $this->Html->link(__('Back'), ['action' => 'index'], ['class' => 'button']) ?>
+            <?php echo $this->Html->link(__('Edit'), ['action' => 'edit', $group['groupname']], ['class' => 'button success small']) ?>
+            <?php echo $this->Html->link(__('Back'), ['action' => 'index'], ['class' => 'button small']) ?>
         </div>
-        <div class="clearfix"></div>
-        <hr />
+        <hr class="clearfix" />
         
-        <section id="access">
+        <section id="general">
             <h3><?php echo __('Access'); ?></h3>
             <div class="panel">
                 <div class="panel-body">
-                    <table>
+                    <table class="vertical-table transparent inverted">
                         <tbody>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Group Name'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['groupname'])) { echo $group['groupname']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Group Name'); ?></th>
+                                <td><?php if(isset($group['groupname'])) { echo $group['groupname']; } ?></td>
                             </tr>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Location ID'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['WISPr-Location-ID'])) { echo $group['WISPr-Location-ID']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Location ID'); ?></th>
+                                <td><?php if(isset($group['WISPr-Location-ID'])) { echo $group['WISPr-Location-ID']; } ?></td>
                             </tr>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Location Name'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['WISPr-Location-Name'])) { echo $group['WISPr-Location-Name']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Location Name'); ?></th>
+                                <td><?php if(isset($group['WISPr-Location-Name'])) { echo $group['WISPr-Location-Name']; } ?></td>
                             </tr>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Reply Message'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['Reply-Message'])) { echo $group['Reply-Message']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Reply Message'); ?></th>
+                                <td><?php if(isset($group['Reply-Message'])) { echo $group['Reply-Message']; } ?></td>
                             </tr>
                         </tbody>
                     </table>
@@ -48,22 +42,19 @@
             <h3><?php echo __('General'); ?></h3>
             <div class="panel">
                 <div class="panel-body">
-                    <table>
+                    <table class="vertical-table transparent inverted">
                         <tbody>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Port Limit'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['Port-Limit'])) { echo $group['Port-Limit']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Port Limit'); ?></th>
+                                <td><?php if(isset($group['Port-Limit'])) { echo $group['Port-Limit']; } ?></td>
                             </tr>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Session Timeout'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['Session-Timeout'])) { echo $group['Session-Timeout']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Session Timeout'); ?></th>
+                                <td><?php if(isset($group['Session-Timeout'])) { echo $group['Session-Timeout']; } ?></td>
                             </tr>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Redirection URL (On login success)'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['WISPr-Redirection-URL'])) { echo $group['WISPr-Redirection-URL']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Redirection URL (On login success)'); ?></th>
+                                <td><?php if(isset($group['WISPr-Redirection-URL'])) { echo $group['WISPr-Redirection-URL']; } ?></td>
                             </tr>
                         </tbody>
                     </table>
@@ -77,27 +68,23 @@
 
             <div class="panel">
                 <div class="panel-body">
-                    <table>
+                    <table class="vertical-table transparent inverted">
                         <tbody>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Bandwidth Max Down'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['WISPr-Bandwidth-Max-Down'])) { echo $group['WISPr-Bandwidth-Max-Down']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Bandwidth Max Down'); ?></th>
+                                <td><?php if(isset($group['WISPr-Bandwidth-Max-Down'])) { echo $group['WISPr-Bandwidth-Max-Down']; } ?></td>
                             </tr>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Bandwidth Max Up'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['WISPr-Bandwidth-Max-Up'])) { echo $group['WISPr-Bandwidth-Max-Up']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Bandwidth Max Up'); ?></th>
+                                <td><?php if(isset($group['WISPr-Bandwidth-Max-Up'])) { echo $group['WISPr-Bandwidth-Max-Up']; } ?></td>
                             </tr>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Bandwidth Min Down'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['WISPr-Bandwidth-Min-Down'])) { echo $group['WISPr-Bandwidth-Min-Down']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Bandwidth Min Down'); ?></th>
+                                <td><?php if(isset($group['WISPr-Bandwidth-Min-Down'])) { echo $group['WISPr-Bandwidth-Min-Down']; } ?></td>
                             </tr>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Bandwidth Min Up'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['WISPr-Bandwidth-Min-Up'])) { echo $group['WISPr-Bandwidth-Min-Up']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Bandwidth Min Up'); ?></th>
+                                <td><?php if(isset($group['WISPr-Bandwidth-Min-Up'])) { echo $group['WISPr-Bandwidth-Min-Up']; } ?></td>
                             </tr>
                         </tbody>
                     </table>
@@ -110,27 +97,23 @@
 
             <div class="panel">
                 <div class="panel-body">
-                    <table>
+                    <table class="vertical-table transparent inverted">
                         <tbody>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Max Daily Octets'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['Max-Daily-Octets'])) { echo $group['Max-Daily-Octets']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Max Daily Octets'); ?></th>
+                                <td><?php if(isset($group['Max-Daily-Octets'])) { echo $group['Max-Daily-Octets']; } ?></td>
                             </tr>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Max Weekly Octets'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['Max-Weekly-Octets'])) { echo $group['Max-Weekly-Octets']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Max Weekly Octets'); ?></th>
+                                <td><?php if(isset($group['Max-Weekly-Octets'])) { echo $group['Max-Weekly-Octets']; } ?></td>
                             </tr>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Max Monthly Octets'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['Max-Monthly-Octets'])) { echo $group['Max-Monthly-Octets']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Max Monthly Octets'); ?></th>
+                                <td><?php if(isset($group['Max-Monthly-Octets'])) { echo $group['Max-Monthly-Octets']; } ?></td>
                             </tr>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Max Total Octets'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['Max-All-Octets'])) { echo $group['Max-All-Octets']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Max Total Octets'); ?></th>
+                                <td><?php if(isset($group['Max-All-Octets'])) { echo $group['Max-All-Octets']; } ?></td>
                             </tr>
                         </tbody>
                     </table>
@@ -143,27 +126,23 @@
 
             <div class="panel">
                 <div class="panel-body">
-                    <table>
+                    <table class="vertical-table transparent inverted">
                         <tbody>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Max Daily Time'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['Max-Daily-Session'])) { echo $group['Max-Daily-Session']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Max Daily Time'); ?></th>
+                                <td><?php if(isset($group['Max-Daily-Session'])) { echo $group['Max-Daily-Session']; } ?></td>
                             </tr>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Max Weekly Time'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['Max-Weekly-Session'])) { echo $group['Max-Weekly-Session']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Max Weekly Time'); ?></th>
+                                <td><?php if(isset($group['Max-Weekly-Session'])) { echo $group['Max-Weekly-Session']; } ?></td>
                             </tr>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Max Monthly Time'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['Max-Monthly-Session'])) { echo $group['Max-Monthly-Session']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Max Monthly Time'); ?></th>
+                                <td><?php if(isset($group['Max-Monthly-Session'])) { echo $group['Max-Monthly-Session']; } ?></td>
                             </tr>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Max Total Time'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['Max-All-Session'])) { echo $group['Max-All-Session']; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Max Total Time'); ?></th>
+                                <td><?php if(isset($group['Max-All-Session'])) { echo $group['Max-All-Session']; } ?></td>
                             </tr>
                         </tbody>
                     </table>
@@ -176,12 +155,11 @@
 
             <div class="panel">
                 <div class="panel-body">
-                    <table>
+                    <table class="vertical-table transparent inverted">
                         <tbody>
                             <tr>
-                                <td class="text-right" colspan="1"><b><?php echo __('Number of users'); ?></b></td>
-                                <td colspan="1"><?php if(isset($group['users'])) { echo count($group['users']); } else { echo "0"; } ?></td>
-                                <td></td>
+                                <th><?php echo __('Number of users'); ?></th>
+                                <td><?php if(isset($group['users'])) { echo count($group['users']); } else { echo "0"; } ?></td>
                             </tr>
                         </tbody>
                     </table>

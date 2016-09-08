@@ -29,16 +29,20 @@ use Freeradius\Controller\AppController;
  *
  * @property \Freeradius\Model\Table\RadacctTable $Radacct
  */
-class RadacctController extends AppController
-{
+class RadacctController extends AppController {
 
     /**
      * Index method
      *
      * @return \Cake\Network\Response|null
      */
-    public function index()
-    {
+    public function index() {
+        $this->paginate = [
+            'limit' => 25,
+            'order' => [
+                'Radacct.acctstarttime' => 'desc'
+            ]
+        ];
         $radacct = $this->paginate($this->Radacct);
 
         $this->set(compact('radacct'));
@@ -52,61 +56,12 @@ class RadacctController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
+    public function view($id = null) {
         $radacct = $this->Radacct->get($id, [
             'contain' => []
         ]);
 
         $this->set('radacct', $radacct);
-        $this->set('_serialize', ['radacct']);
-    }
-
-    /**
-     * Add method
-     *
-     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $radacct = $this->Radacct->newEntity();
-        if ($this->request->is('post')) {
-            $radacct = $this->Radacct->patchEntity($radacct, $this->request->data);
-            if ($this->Radacct->save($radacct)) {
-                $this->Flash->success(__('The radacct has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The radacct could not be saved. Please, try again.'));
-            }
-        }
-        $this->set(compact('radacct'));
-        $this->set('_serialize', ['radacct']);
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id Radacct id.
-     * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $radacct = $this->Radacct->get($id, [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $radacct = $this->Radacct->patchEntity($radacct, $this->request->data);
-            if ($this->Radacct->save($radacct)) {
-                $this->Flash->success(__('The radacct has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The radacct could not be saved. Please, try again.'));
-            }
-        }
-        $this->set(compact('radacct'));
         $this->set('_serialize', ['radacct']);
     }
 
@@ -117,8 +72,7 @@ class RadacctController extends AppController
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
+    public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $radacct = $this->Radacct->get($id);
         if ($this->Radacct->delete($radacct)) {
@@ -129,4 +83,5 @@ class RadacctController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
 }

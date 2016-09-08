@@ -418,6 +418,10 @@ table {
     width: 100%;
 }
 
+table.transparent {
+    background: none !important;
+}
+
 table thead {
     background: none;
 }
@@ -436,6 +440,11 @@ table tr th {
     color: #1798A5;
     text-align: left;
     border-bottom: 2px solid #1798A5;
+}
+
+table tbody tr th {
+    color: #222;
+    border: none;
 }
 
 table tr:nth-of-type(even) {
@@ -536,6 +545,30 @@ div.message.hidden {
     text-align: right;
 }
 
+.vertical-table.inverted th {
+    padding: 0.5625rem 0.625rem;
+    font-size: 0.875rem;
+    color: #1798A5;
+    border: none;
+    text-align: right;
+}
+
+.vertical-table.inverted td {
+    text-align: left;
+}
+
+.vertical-table div {
+    height: 100% !important;
+}
+
+.vertical-table input,
+.vertical-table select,
+.vertical-table textarea {
+    max-width: 300px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 .content {
     padding: 2rem;
 }
@@ -578,4 +611,11 @@ div.message.hidden {
     margin-top: 20px;
     margin-bottom: 10px;
     border-bottom: 0px;
+}
+
+.ellipsis {
+  width: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

@@ -1,114 +1,128 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Radacct'), ['action' => 'edit', $radacct->radacctid]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Radacct'), ['action' => 'delete', $radacct->radacctid], ['confirm' => __('Are you sure you want to delete # {0}?', $radacct->radacctid)]) ?> </li>
-        <li><?= $this->Html->link(__('List Radacct'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Radacct'), ['action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="radacct view large-9 medium-8 columns content">
-    <h3><?= h($radacct->radacctid) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th><?= __('Acctsessionid') ?></th>
-            <td><?= h($radacct->acctsessionid) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Acctuniqueid') ?></th>
-            <td><?= h($radacct->acctuniqueid) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Username') ?></th>
-            <td><?= h($radacct->username) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Groupname') ?></th>
-            <td><?= h($radacct->groupname) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Realm') ?></th>
-            <td><?= h($radacct->realm) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Nasipaddress') ?></th>
-            <td><?= h($radacct->nasipaddress) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Nasportid') ?></th>
-            <td><?= h($radacct->nasportid) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Nasporttype') ?></th>
-            <td><?= h($radacct->nasporttype) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Acctauthentic') ?></th>
-            <td><?= h($radacct->acctauthentic) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Connectinfo Start') ?></th>
-            <td><?= h($radacct->connectinfo_start) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Connectinfo Stop') ?></th>
-            <td><?= h($radacct->connectinfo_stop) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Calledstationid') ?></th>
-            <td><?= h($radacct->calledstationid) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Callingstationid') ?></th>
-            <td><?= h($radacct->callingstationid) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Acctterminatecause') ?></th>
-            <td><?= h($radacct->acctterminatecause) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Servicetype') ?></th>
-            <td><?= h($radacct->servicetype) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Framedprotocol') ?></th>
-            <td><?= h($radacct->framedprotocol) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Framedipaddress') ?></th>
-            <td><?= h($radacct->framedipaddress) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Radacctid') ?></th>
-            <td><?= $this->Number->format($radacct->radacctid) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Acctinterval') ?></th>
-            <td><?= $this->Number->format($radacct->acctinterval) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Acctsessiontime') ?></th>
-            <td><?= $this->Number->format($radacct->acctsessiontime) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Acctinputoctets') ?></th>
-            <td><?= $this->Number->format($radacct->acctinputoctets) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Acctoutputoctets') ?></th>
-            <td><?= $this->Number->format($radacct->acctoutputoctets) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Acctstarttime') ?></th>
-            <td><?= h($radacct->acctstarttime) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Acctupdatetime') ?></th>
-            <td><?= h($radacct->acctupdatetime) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Acctstoptime') ?></th>
-            <td><?= h($radacct->acctstoptime) ?></td>
-        </tr>
-    </table>
-</div>
+<?php $this->assign('title', 'Freeradius / Accounting / ' . $radacct->acctuniqueid); ?>
+
+<?php echo $this->element('sidebar'); ?>
+
+<main class="radacct view large-10 medium-9 columns content">
+    <section>
+        
+        <h2 class="left"><?php echo h($radacct->username) ?></h2>
+        <div class="right">
+            <?php echo $this->Html->link(__('Back'), ['action' => 'index'],['class' => 'button']) ?>
+        </div>
+        <hr class="clearfix" />
+        
+        <h3><?php echo $radacct->acctuniqueid; ?></h3>
+        <div class="panel">
+            <div class="panel-body">
+                <table class="vertical-table transparent inverted">
+                    <tr>
+                        <th><?php echo __('Acctsessionid') ?></th>
+                        <td><?php echo h($radacct->acctsessionid) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Acctuniqueid') ?></th>
+                        <td><?php echo h($radacct->acctuniqueid) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Username') ?></th>
+                        <td><?php echo h($radacct->username) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Groupname') ?></th>
+                        <td><?php echo h($radacct->groupname) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Realm') ?></th>
+                        <td><?php echo h($radacct->realm) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Nasipaddress') ?></th>
+                        <td><?php echo h($radacct->nasipaddress) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Nasportid') ?></th>
+                        <td><?php echo h($radacct->nasportid) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Nasporttype') ?></th>
+                        <td><?php echo h($radacct->nasporttype) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Acctauthentic') ?></th>
+                        <td><?php echo h($radacct->acctauthentic) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Connectinfo Start') ?></th>
+                        <td><?php echo h($radacct->connectinfo_start) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Connectinfo Stop') ?></th>
+                        <td><?php echo h($radacct->connectinfo_stop) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Calledstationid') ?></th>
+                        <td><?php echo h($radacct->calledstationid) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Callingstationid') ?></th>
+                        <td><?php echo h($radacct->callingstationid) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Acctterminatecause') ?></th>
+                        <td><?php echo h($radacct->acctterminatecause) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Servicetype') ?></th>
+                        <td><?php echo h($radacct->servicetype) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Framedprotocol') ?></th>
+                        <td><?php echo h($radacct->framedprotocol) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Framedipaddress') ?></th>
+                        <td><?php echo h($radacct->framedipaddress) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Radacctid') ?></th>
+                        <td><?php echo $this->Number->format($radacct->radacctid) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Acctinterval') ?></th>
+                        <td><?php echo $this->Number->format($radacct->acctinterval) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Acctsessiontime') ?></th>
+                        <td><?php echo $this->Number->format($radacct->acctsessiontime) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Acctinputoctets') ?></th>
+                        <td><?php echo $this->Number->format($radacct->acctinputoctets) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Acctoutputoctets') ?></th>
+                        <td><?php echo $this->Number->format($radacct->acctoutputoctets) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Acctstarttime') ?></th>
+                        <td><?php echo h($radacct->acctstarttime) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Acctupdatetime') ?></th>
+                        <td><?php echo h($radacct->acctupdatetime) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Acctstoptime') ?></th>
+                        <td><?php echo h($radacct->acctstoptime) ?></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="right">
+            <?php echo $this->Html->link(__('Back'), ['action' => 'index'],['class' => 'button']) ?>
+        </div>
+        <div class="clearfix"></div>
+        
+    </section>
+</main>
