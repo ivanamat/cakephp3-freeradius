@@ -9,7 +9,22 @@ use Freeradius\Controller\AppController;
  *
  * @property \Freeradius\Model\Table\RadpostauthTable $Radpostauth
  */
-class RadpostauthController extends AppController {
+class PostAuthenticationController extends AppController {
+    
+    /**
+     * Initialization hook method.
+     *
+     * Use this method to add common initialization code like loading components.
+     *
+     * e.g. `$this->loadComponent('Security');`
+     *
+     * @return void
+     */
+    public function initialize() {
+        parent::initialize();
+     
+        $this->loadModel('Freeradius.Radpostauth');
+    }
 
     /**
      * Index method

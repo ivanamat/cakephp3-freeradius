@@ -29,7 +29,22 @@ use Freeradius\Controller\AppController;
  *
  * @property \Freeradius\Model\Table\RadacctTable $Radacct
  */
-class RadacctController extends AppController {
+class AccountingController extends AppController {
+    
+    /**
+     * Initialization hook method.
+     *
+     * Use this method to add common initialization code like loading components.
+     *
+     * e.g. `$this->loadComponent('Security');`
+     *
+     * @return void
+     */
+    public function initialize() {
+        parent::initialize();
+     
+        $this->loadModel('Freeradius.Radacct');
+    }
 
     /**
      * Index method

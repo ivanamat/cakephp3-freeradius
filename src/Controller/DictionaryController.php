@@ -22,10 +22,9 @@
 
 namespace Freeradius\Controller;
 
-use Cake\Core\Plugin;
 use Freeradius\Controller\AppController;
 
-class DashboardController extends AppController {
+class DictionaryController extends AppController {
 
     /**
      * Initialization hook method.
@@ -42,8 +41,14 @@ class DashboardController extends AppController {
         $this->loadComponent('Freeradius.Dictionary');
     }
 
-    public function index() {
+    public function update() {
+        if($this->Dictionary->update()) {
+            $this->Flash->success(__('Dictionary successfully updated!'));
+        } else {
+            $this->Flash->error(__('Could not update the dictionary!'));
+        }
         
+        return $this->redirect(['controller' => 'Dashboard', 'action' => 'index']);
     }
 
 }
